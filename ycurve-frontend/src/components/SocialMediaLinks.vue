@@ -1,6 +1,7 @@
 <template>
-  <h5>Social Media Links to be Hher.....</h5>
-
+  <div class="col-sm-12">
+    <a href="https://twitter.com/share" class="twitter-share-button" data-via="GreenspudTrades" data-show-count="false">Tweet</a>
+  </div>
 </template>
 
 <script>
@@ -8,6 +9,13 @@
     name: "SocialMediaLinks",
     props: {
       msg: String
+    },
+    mounted: function() {
+      // TODO this thing aint working
+      let twitterScript = document.createElement('script');
+      twitterScript.async=true
+      twitterScript.setAttribute('src', "//platform.twitter.com/widgets.js")
+      twitterScript.setAttribute('charset', "utf-8")
     }
   };
 </script>

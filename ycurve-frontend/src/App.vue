@@ -2,16 +2,19 @@
   <div id="app" class="container-fluid">
     <HeadingTitle></HeadingTitle>
     <SocialMediaLinks></SocialMediaLinks>
+    <YieldCurveChart></YieldCurveChart>
   </div>
 </template>
 
 <script>
 import HeadingTitle from "./components/HeadingTitle.vue";
 import SocialMediaLinks from "./components/SocialMediaLinks.vue";
+import YieldCurveChart from "./components/YieldCurveChart";
 
 export default {
   name: "app",
   components: {
+    YieldCurveChart,
     HeadingTitle,
     SocialMediaLinks
   }
