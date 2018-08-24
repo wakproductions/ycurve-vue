@@ -9,7 +9,7 @@
 <script>
 import HeadingTitle from "./components/HeadingTitle.vue";
 import SocialMediaLinks from "./components/SocialMediaLinks.vue";
-import YieldCurveChart from "./components/YieldCurveChart";
+import YieldCurveChart from "./components/YieldCurveChart.vue";
 
 export default {
   name: "app",

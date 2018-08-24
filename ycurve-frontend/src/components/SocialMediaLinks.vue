@@ -1,6 +1,7 @@
 <template>
   <div class="col-sm-12">
     <a href="https://twitter.com/share" class="twitter-share-button" data-via="GreenspudTrades" data-show-count="false">Tweet</a>
+    Heres some text blablabla
   </div>
 </template>
 
