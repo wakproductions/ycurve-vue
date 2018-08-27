@@ -1,20 +1,19 @@
 <template>
   <div id="app" class="container-fluid">
-    <HeadingTitle></HeadingTitle>
-    <SocialMediaLinks></SocialMediaLinks>
-    <YieldCurveChart></YieldCurveChart>
+    <heading-title/>
+    <yield-curve-viewer/>
   </div>
 </template>
 
 <script>
 import HeadingTitle from "./components/HeadingTitle.vue";
 import SocialMediaLinks from "./components/SocialMediaLinks.vue";
-import YieldCurveChart from "./components/YieldCurveChart.vue";
+import YieldCurveViewer from "./components/YieldCurveViewer.vue";
 
 export default {
   name: "app",
   components: {
-    YieldCurveChart,
+    YieldCurveViewer,
     HeadingTitle,
     SocialMediaLinks
   }
