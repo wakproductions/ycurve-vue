@@ -1,5 +1,8 @@
 <template>
-  <h1>US Treasuries Yield Curve</h1>
+  <div id="app-title">
+    <h1>US Treasuries Yield Curve</h1>
+    An app for exploring the US Treasuries Yield Curve
+  </div>
 </template>
 
 <script>

@@ -7,7 +7,4 @@ Vue.use(BootstrapVue);
 
 new Vue({
   render: h => h(App),
-  data: {
-    sample_message: "sample message textx"
-  }
 }).$mount("#app");
