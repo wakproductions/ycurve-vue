@@ -48,12 +48,11 @@
     },
     methods: {
       newData: (event) => {
-        // store.dispatch(types.GET_YCURVE_REQUEST)
-        store.dispatch(types.GET_INITIAL_YCURVE_REQUEST);
+        // store.dispatch(types.GET_INITIAL_YCURVE_REQUEST);
       }
     },
     mounted: () => {
-      // store.dispatch(types.GET_INITIAL_YCURVE_REQUEST);
+      store.dispatch(types.GET_INITIAL_YCURVE_REQUEST);
     }
   };
 </script>
