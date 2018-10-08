@@ -8,16 +8,16 @@
 <script>
 import store from "./store"
 import HeadingTitle from "./components/HeadingTitle.vue";
-import SocialMediaLinks from "./components/SocialMediaLinks.vue";
+// import SocialMediaLinks from "./components/SocialMediaLinks.vue";
 import YieldCurveViewer from "./components/YieldCurveViewer.vue";
 
 export default {
   name: "app",
   store: store,
   components: {
-    YieldCurveViewer,
     HeadingTitle,
-    SocialMediaLinks
+    // SocialMediaLinks,
+    YieldCurveViewer,
   }
 };
 </script>

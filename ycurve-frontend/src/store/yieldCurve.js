@@ -1,66 +1,59 @@
-import fetchApi from "@/util/fetchApi";
-import buildDataStruct from "@/util/buildDataStruct";
+import { fetchYieldCurveSnapshot } from "@/util/fetchApi";
+import { buildDataStruct, resetDataset } from "@/util/buildDataStruct";
 
 export const types = {
-  GET_INITIAL_YCURVE_REQUEST: "GET_INITIAL_YCURVE_REQUEST",
-  GET_YCURVE_REQUEST: "GET_YCURVE_REQUEST",
-  PIN_YCURVE: "PIN_YCURVE",
-  SET_CURRENT_YCURVE: "SET_CURRENT_YCURVE",
-  SET_FETCH_STATE_PENDING: "SET_FETCH_STATE_PENDING",
-  SET_FETCH_STATE_READY: "SET_FETCH_STATE_READY"
+  SET_CHART_DATA: "SET_CHART_DATA",
+  UPDATE_TOP_DATAPOINT: "UPDATE_TOP_DATAPOINT",
+
+  MOVE_BACKWARDS: "MOVE_BACKWARDS",
+  RESET_CHART_DATA: "RESET_CHART_DATA"
 };
 
-export const fetch_states = {
-  PENDING: "PENDING",
-  READY: "READY"
-};
+// export const fetch_states = {
+//   PENDING: "PENDING",
+//   READY: "READY"
+// };
 
 export default {
   state: {
-    fetch_state: fetch_states.READY,
-    datasets: [
-      // {
-      //   borderColor: "#6600FF",
-      //   data: [1.28, 1.39, 1.53, null, 1.76, 1.89, 1.98, 2.2],
-      //   fill: false,
-      //   label: "12/30/2017"
-      // },
-    ]
+    // fetch_state: fetch_states.READY,
+    datasets: []
   },
   mutations: {
-    [types.GET_YCURVE_REQUEST]: (state, for_date, offset = 0) => {
-      state.fetch_state = fetch_states.PENDING;
-      fetchApi(for_date).then(response => {
-        var newData = response.data;
-
-        state.datasets = [buildDataStruct(newData, for_date)];
-        state.fetch_state = fetch_states.READY;
-      });
+    [types.SET_CHART_DATA]: (state, newChartData) => {
+      state.datasets = newChartData
+    },
+    [types.UPDATE_TOP_DATAPOINT]: (state, newChartData) => {
+      state.datasets = newChartData
     }
+    // [types.GET_YCURVE_REQUEST]: (state, for_date, offset = 0) => {
+    //   // state.fetch_state = fetch_states.PENDING;
+    //   fetchYieldCurveSnapshot(for_date).then(response => {
+    //     var newData = response.data;
+    //
+    //     state.datasets = resetDataset(buildDataStruct(newData));
+    //     // state.fetch_state = fetch_states.READY;
+    //   });
+    // }
   },
   actions: {
-    [types.GET_YCURVE_REQUEST]: ({ commit }) => {
-      if (state.fetch_state != fetch_states.READY) return null;
-      commit(types.GET_YCURVE_REQUEST);
+    [types.MOVE_BACKWARDS]: ({ commit }) => {
+      // fetchYieldCurveSnapshot(currentDate).then(response => {
+      //     var newDatasets = resetDataset(buildDataStruct(response.data));
+      //     commit(types.SET_CHART_DATA, newDatasets)
     },
-    [types.GET_INITIAL_YCURVE_REQUEST]: ({ commit }) => {
-      var todaysDate = new Date(Date.now());
-      commit(types.GET_YCURVE_REQUEST, todaysDate);
-    }
+    [types.RESET_CHART_DATA]: ({ commit }) => {
+      var currentDate = new Date;
+      fetchYieldCurveSnapshot(currentDate).then(response => {
+        var newDatasets = resetDataset(buildDataStruct(response.data));
+        commit(types.SET_CHART_DATA, newDatasets)
+      });
+    },
   },
-  getters: {
-    // allCerts: state => {
-    //   return state.list;
-    // },
-    // certNames: state => {
-    //   return state.list.map(cert => cert.name);
-    // },
-    // certIssuers: state => {
-    //   return removeDuplicates(state.list, 'issuer').map(cert => cert.issuer);
-    // },
-  },
+  getters: {},
   methods: {
     nextColor: () => {
+      // TODO move this into a function
       return "#881111";
     }
   }

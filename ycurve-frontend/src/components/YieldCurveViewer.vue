@@ -5,9 +5,6 @@
         <yield-curve-chart :chartData="this.chartData" :chartOptions="this.chartOptions" :height="400" :width="800"/>
       </div>
     </div>
-    <div class="big">
-      This is big
-    </div>
     <a href="" @click.prevent="newData">Click this link</a>
   </div>
 </template>
@@ -47,12 +44,12 @@
       },
     },
     methods: {
-      newData: (event) => {
+      newData: () => {
         // store.dispatch(types.GET_INITIAL_YCURVE_REQUEST);
       }
     },
     mounted: () => {
-      store.dispatch(types.GET_INITIAL_YCURVE_REQUEST);
+      store.dispatch(types.RESET_CHART_DATA);
     }
   };
 </script>
