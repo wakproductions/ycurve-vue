@@ -3,6 +3,9 @@ export const reformatEuropeanDateToAmericanDate = (dateString) => {
   return `${asDate.getMonth()+1}/${asDate.getDate()+1}/${asDate.getFullYear()}`
 }
 
+export const formatDateAmerican = (date) => {
+  return `${date.getMonth()+1}/${date.getDate()}/${date.getFullYear()}`
+}
 export const formatDateISO8601 = (date) => {
-  return `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()+1}`
+  return `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`
 }

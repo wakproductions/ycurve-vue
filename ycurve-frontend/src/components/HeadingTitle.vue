@@ -1,5 +1,5 @@
 <template>
-  <div id="app-title">
+  <div id="heading-title">
     <h1>US Treasuries Yield Curve</h1>
     An app for exploring the US Treasuries Yield Curve
   </div>
