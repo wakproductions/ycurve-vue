@@ -1,17 +1,14 @@
 <template>
-  <div id="date-navigation">
-    <div class="row  justify-content-center">
-      <div class="col-md-8">
-        <div class="action-button yellow-bg" @click="dateDown()"><font-awesome-icon icon="angle-left" /></div>
-        <input v-model="_viewerDate" />
-        <div class="action-button yellow-bg" @click="dateUp()"><font-awesome-icon icon="angle-right" /></div>
-      </div>
+  <div id="date-navigation" class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="action-button yellow-bg" @click="dateDown()"><font-awesome-icon icon="angle-left" /></div>
+      <input v-model="_viewerDate" />
+      <div class="action-button yellow-bg" @click="dateUp()"><font-awesome-icon icon="angle-right" /></div>
     </div>
   </div>
 </template>
 
 <script>
-  // import store from '@/store/index';
   import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
   import { library } from '@fortawesome/fontawesome-svg-core';
   import { faAngleLeft } from '@fortawesome/free-solid-svg-icons'
@@ -27,6 +24,9 @@
     name: "DateNavigation",
     components: {
       FontAwesomeIcon
+    },
+    model: {
+      event: 'date-changed'
     },
     data() {
       return {
@@ -44,6 +44,7 @@
           var parsedDate = new Date(newDate)
           if ((parsedDate >= LOWER_DATE_LIMIT) && (parsedDate <= new Date)) {
             this.viewerDate = formatDateAmerican(parsedDate)
+            this.$emit('date-changed')
           } // TODO else display an error message
         }
       }

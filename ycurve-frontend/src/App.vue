@@ -1,7 +1,6 @@
 <template>
   <div id="app" class="container-fluid">
     <heading-title/>
-    <date-navigation/>
     <yield-curve-viewer/>
   </div>
 </template>
@@ -17,7 +16,6 @@ export default {
   name: "app",
   store: store,
   components: {
-    DateNavigation,
     HeadingTitle,
     // SocialMediaLinks,
     YieldCurveViewer,

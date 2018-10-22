@@ -1,8 +1,14 @@
 <template>
   <div class="container-fluid">
+    <date-navigation v-on:date-changed="onDateNavigationChanged" />
     <div class="row justify-content-md-center">
       <div class="col-sm-8">
-        <yield-curve-chart :chartData="this.chartData" :chartOptions="this.chartOptions" :height="400" :width="800"/>
+        <yield-curve-chart
+          :chartData="this.chartData"
+          :chartOptions="this.chartOptions"
+          :height="400"
+          :width="800"
+        />
       </div>
     </div>
     <a href="" @click.prevent="newData">Click this link</a>
@@ -12,9 +18,11 @@
 <script>
   import store from '@/store/index';
   import { types } from '@/store/yieldCurve'
+  import DateNavigation from './DateNavigation'
   import YieldCurveChart from './YieldCurveChart'
 
   export default {
+    name: 'YieldCurveViewer',
     data() {
       return {
         chartOptions: {
@@ -22,7 +30,10 @@
         }
       }
     },
-    components: {YieldCurveChart},
+    components: {
+      DateNavigation,
+      YieldCurveChart
+    },
     computed: {
       chartData() {
         return {
@@ -44,6 +55,9 @@
       },
     },
     methods: {
+      onDateNavigationChanged: () => {
+        
+      },
       newData: () => {
         // store.dispatch(types.GET_INITIAL_YCURVE_REQUEST);
       }
