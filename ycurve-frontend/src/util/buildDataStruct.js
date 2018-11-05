@@ -29,8 +29,11 @@ export const addDataPoint = (apiData, currentDataset) => {
   return newDataset
 }
 
-export const changeTopDataPoint = (apiData, currentDataset) => {
-  
+export const changeTopDatapoint = (currentFullDataset, newData) => {
+  var modifiedDataset = currentFullDataset
+  modifiedDataset.shift()
+  modifiedDataset.unshift(newData)
+  return modifiedDataset
 }
 
 export const nextColor = (currentDataset) => {

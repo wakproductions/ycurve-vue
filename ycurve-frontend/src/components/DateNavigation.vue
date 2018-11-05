@@ -44,7 +44,7 @@
           var parsedDate = new Date(newDate)
           if ((parsedDate >= LOWER_DATE_LIMIT) && (parsedDate <= new Date)) {
             this.viewerDate = formatDateAmerican(parsedDate)
-            this.$emit('date-changed')
+            this.$emit('date-changed', this.viewerDate)
           } // TODO else display an error message
         }
       }

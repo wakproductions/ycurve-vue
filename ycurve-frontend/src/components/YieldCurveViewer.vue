@@ -16,6 +16,7 @@
 </template>
 
 <script>
+  import { debounce } from 'lodash';
   import store from '@/store/index';
   import { types } from '@/store/yieldCurve'
   import DateNavigation from './DateNavigation'
@@ -27,8 +28,12 @@
       return {
         chartOptions: {
           responsive: true,
-        }
+        },
+        viewerDate: ''
       }
+    },
+    created: function () {
+      this.debouncedChangeCurrentDate = debounce(this.changeCurrentDate, 500)
     },
     components: {
       DateNavigation,
@@ -55,11 +60,14 @@
       },
     },
     methods: {
-      onDateNavigationChanged: () => {
-        
+      changeCurrentDate: function (newDate)  {
+        // console.log(newDate)
+        store.dispatch(types.CHANGE_CHART_DATE, newDate);
+      },
+      onDateNavigationChanged: function (newDate) {
+        this.debouncedChangeCurrentDate(newDate)
       },
       newData: () => {
-        // store.dispatch(types.GET_INITIAL_YCURVE_REQUEST);
       }
     },
     mounted: () => {

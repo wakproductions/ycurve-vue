@@ -8,7 +8,7 @@ export const apiEndpoints = {
 
 export const fetchYieldCurveSnapshot = (date) => {
   var query_url = new URL(apiEndpoints.YIELD_CURVE_SNAPSHOT, base_url).toString()
-  return axios.get(query_url, { date: formatDateISO8601(date) })
+  return axios.get(query_url, { params: { date: formatDateISO8601(date) } })
 }
 
 export const fetchApi = (api_endpoint, params) => {

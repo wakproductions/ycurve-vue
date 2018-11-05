@@ -1,11 +1,11 @@
 import { fetchYieldCurveSnapshot } from "@/util/fetchApi";
-import { buildDataStruct, resetDataset } from "@/util/buildDataStruct";
+import { buildDataStruct, changeTopDatapoint, resetDataset } from "@/util/buildDataStruct";
+import {changeTopDataPoint} from "../util/buildDataStruct";
 
 export const types = {
   SET_CHART_DATA: "SET_CHART_DATA",
-  UPDATE_TOP_DATAPOINT: "UPDATE_TOP_DATAPOINT",
-
-  MOVE_BACKWARDS: "MOVE_BACKWARDS",
+  CHANGE_CHART_DATE: "CHANGE_CHART_DATE",
+  UPDATE_TOP_DATAPOINT: 'UPDATE_TOP_DATAPOINT',
   RESET_CHART_DATA: "RESET_CHART_DATA"
 };
 
@@ -37,10 +37,12 @@ export default {
     // }
   },
   actions: {
-    [types.MOVE_BACKWARDS]: ({ commit }) => {
-      // fetchYieldCurveSnapshot(currentDate).then(response => {
-      //     var newDatasets = resetDataset(buildDataStruct(response.data));
-      //     commit(types.SET_CHART_DATA, newDatasets)
+    [types.CHANGE_CHART_DATE]: ({ commit, state }, newDate) => {
+      var updatedDate = new Date(newDate);
+      fetchYieldCurveSnapshot(updatedDate).then(response => {
+        var newDatasets = changeTopDatapoint(state.datasets, buildDataStruct(response.data));
+        commit(types.SET_CHART_DATA, newDatasets)
+      })
     },
     [types.RESET_CHART_DATA]: ({ commit }) => {
       var currentDate = new Date;
