@@ -1,6 +1,21 @@
 <template>
   <div class="container-fluid">
-    <date-navigation v-on:date-changed="onDateNavigationChanged" />
+    <div class="row justify-content-md-center">
+      <div class="col-sm-8">
+        <alert-messages></alert-messages>
+      </div>
+    </div>
+    <div class="row justify-content-md-center">
+      <div class="col-sm-8">
+        <date-navigation
+          :setDate="this.viewerDate"
+          v-on:date-changed="onDateNavigationChanged"
+          v-on:date-move-up="onDateMoveUp"
+          v-on:date-move-down="onDateMoveDown"
+          ref="dateNavigation"
+        />
+      </div>
+    </div>
     <div class="row justify-content-md-center">
       <div class="col-sm-8">
         <yield-curve-chart
@@ -17,9 +32,11 @@
 
 <script>
   import { debounce } from 'lodash';
+  import { formatDateAmerican, convertStringToDate, offsetDate } from "@/util/dateUtils";
   import store from '@/store/index';
   import { types } from '@/store/yieldCurve'
   import DateNavigation from './DateNavigation'
+  import AlertMessages from './AlertMessages'
   import YieldCurveChart from './YieldCurveChart'
 
   export default {
@@ -36,6 +53,7 @@
       this.debouncedChangeCurrentDate = debounce(this.changeCurrentDate, 500)
     },
     components: {
+      AlertMessages,
       DateNavigation,
       YieldCurveChart
     },
@@ -60,14 +78,32 @@
       },
     },
     methods: {
-      changeCurrentDate: function (newDate)  {
-        // console.log(newDate)
-        store.dispatch(types.CHANGE_CHART_DATE, newDate);
+      changeCurrentDate(newDate, offset)  {
+        store.dispatch(types.CHANGE_CHART_DATE, { newDate: newDate, offset: offset });
       },
       onDateNavigationChanged: function (newDate) {
-        this.debouncedChangeCurrentDate(newDate)
+        this.viewerDate = newDate
+        this.debouncedChangeCurrentDate(newDate, 0)
       },
-      newData: () => {
+      onDateMoveUp: function (baseDate) {
+        // console.log('up on basedate: ' + baseDate)
+        this.changeCurrentDate(baseDate, 1)
+        // throttle(
+        //   this.debouncedChangeCurrentDate(currentDate, 1),
+        //   500
+        // )
+      },
+      onDateMoveDown: function (baseDate) {
+        // console.log('down on basedate: ' + baseDate)
+        this.changeCurrentDate(baseDate, -1)
+        // this.$refs.dateNavigation.setViewerDateText(formatDateAmerican(new Date(new Date(Date.parse(currentDate)) - 60*60*24)))
+        // console.log('setting view to ' + formatDateAmerican(new Date(new Date(Date.parse(currentDate)) - 60*60*24)))
+        // this.debouncedChangeCurrentDate(currentDate, -1)
+      }
+    },
+    watch: {
+      chartData: function() {
+        this.$refs.dateNavigation.setViewerDateText(this.chartData.datasets[0].label)
       }
     },
     mounted: () => {

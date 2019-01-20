@@ -1,6 +1,5 @@
 import { fetchYieldCurveSnapshot } from "@/util/fetchApi";
 import { buildDataStruct, changeTopDatapoint, resetDataset } from "@/util/buildDataStruct";
-import {changeTopDataPoint} from "../util/buildDataStruct";
 
 export const types = {
   SET_CHART_DATA: "SET_CHART_DATA",
@@ -17,29 +16,23 @@ export const types = {
 export default {
   state: {
     // fetch_state: fetch_states.READY,
-    datasets: []
+    datasets: [],
+    currentViewerDate: ''
   },
   mutations: {
     [types.SET_CHART_DATA]: (state, newChartData) => {
       state.datasets = newChartData
+      state.currentViewerDate = newChartData[0].label
     },
     [types.UPDATE_TOP_DATAPOINT]: (state, newChartData) => {
       state.datasets = newChartData
+      state.currentViewerDate = newChartData[0].label
     }
-    // [types.GET_YCURVE_REQUEST]: (state, for_date, offset = 0) => {
-    //   // state.fetch_state = fetch_states.PENDING;
-    //   fetchYieldCurveSnapshot(for_date).then(response => {
-    //     var newData = response.data;
-    //
-    //     state.datasets = resetDataset(buildDataStruct(newData));
-    //     // state.fetch_state = fetch_states.READY;
-    //   });
-    // }
   },
   actions: {
-    [types.CHANGE_CHART_DATE]: ({ commit, state }, newDate) => {
-      var updatedDate = new Date(newDate);
-      fetchYieldCurveSnapshot(updatedDate).then(response => {
+    [types.CHANGE_CHART_DATE]: ({ commit, state }, args) => {
+      var updatedDate = new Date(args.newDate);
+      fetchYieldCurveSnapshot(updatedDate, args.offset).then(response => {
         var newDatasets = changeTopDatapoint(state.datasets, buildDataStruct(response.data));
         commit(types.SET_CHART_DATA, newDatasets)
       })

@@ -1,4 +1,4 @@
-import { reformatEuropeanDateToAmericanDate } from "@/util/parseDate";
+import { reformatEuropeanDateToAmericanDate } from "@/util/dateUtils";
 
 export const buildDataStruct = (apiData, color) => {
   var ycurve_datapoints = [
@@ -15,7 +15,6 @@ export const buildDataStruct = (apiData, color) => {
     apiData[0].yield_30y
   ];
 
-  // console.log(api_data[0].yield_curve_date)
   return {
     borderColor: color,
     data: ycurve_datapoints,

@@ -1,14 +1,15 @@
 import axios from "axios";
-import { formatDateISO8601 } from "@/util/parseDate";
+import { formatDateISO8601 } from "@/util/dateUtils";
 
 const base_url='http://localhost:3030/';
 export const apiEndpoints = {
   YIELD_CURVE_SNAPSHOT: 'api/v1/yield_curve_snapshot'
 }
 
-export const fetchYieldCurveSnapshot = (date) => {
+export const fetchYieldCurveSnapshot = (date, offset = 0) => {
   var query_url = new URL(apiEndpoints.YIELD_CURVE_SNAPSHOT, base_url).toString()
-  return axios.get(query_url, { params: { date: formatDateISO8601(date) } })
+  // console.log('date ' + formatDateISO8601(date) + ' ' + offset)
+  return axios.get(query_url, { params: { date: formatDateISO8601(date), offset: offset } })
 }
 
 export const fetchApi = (api_endpoint, params) => {
