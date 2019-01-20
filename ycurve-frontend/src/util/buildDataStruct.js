@@ -1,14 +1,14 @@
-import { reformatEuropeanDateToAmericanDate } from "@/util/dateUtils";
+import { reformatISO8601DateToAmericanDate } from "@/util/dateUtils";
 
 export const buildDataStruct = (apiData, color) => {
   var ycurve_datapoints = [
     apiData[0].yield_1m,
     apiData[0].yield_3m,
+    apiData[0].yield_6m,
     apiData[0].yield_1y,
     apiData[0].yield_2y,
     apiData[0].yield_3y,
     apiData[0].yield_5y,
-    apiData[0].yield_6m,
     apiData[0].yield_7y,
     apiData[0].yield_10y,
     apiData[0].yield_20y,
@@ -19,7 +19,7 @@ export const buildDataStruct = (apiData, color) => {
     borderColor: color,
     data: ycurve_datapoints,
     fill: false,
-    label: reformatEuropeanDateToAmericanDate(apiData[0].yield_curve_date)
+    label: reformatISO8601DateToAmericanDate(apiData[0].yield_curve_date)
   };
 };
 

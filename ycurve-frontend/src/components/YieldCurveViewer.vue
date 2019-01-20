@@ -2,7 +2,7 @@
   <div class="container-fluid">
     <div class="row justify-content-md-center">
       <div class="col-sm-8">
-        <alert-messages></alert-messages>
+        <!--<alert-messages></alert-messages>-->
       </div>
     </div>
     <div class="row justify-content-md-center">
@@ -88,17 +88,10 @@
       onDateMoveUp: function (baseDate) {
         // console.log('up on basedate: ' + baseDate)
         this.changeCurrentDate(baseDate, 1)
-        // throttle(
-        //   this.debouncedChangeCurrentDate(currentDate, 1),
-        //   500
-        // )
       },
       onDateMoveDown: function (baseDate) {
         // console.log('down on basedate: ' + baseDate)
         this.changeCurrentDate(baseDate, -1)
-        // this.$refs.dateNavigation.setViewerDateText(formatDateAmerican(new Date(new Date(Date.parse(currentDate)) - 60*60*24)))
-        // console.log('setting view to ' + formatDateAmerican(new Date(new Date(Date.parse(currentDate)) - 60*60*24)))
-        // this.debouncedChangeCurrentDate(currentDate, -1)
       }
     },
     watch: {

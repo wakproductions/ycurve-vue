@@ -2,7 +2,7 @@ export const AMERICAN_DATE_REGEX = /\d{1,2}\/\d{1,2}\/\d\d\d\d/;
 // export const EUROPEAN_DATE_REGEX = //;
 
 export const convertStringToDate = dateString => {
-  // var americanDate = reformatEuropeanDateToAmericanDate(dateString);
+  // var americanDate = reformatISO8601DateToAmericanDate(dateString);
   // return new Date(americanDate);
   return new Date(dateString)
 };
@@ -17,7 +17,7 @@ export const offsetDate = (startDate, offset) => {
 // Thu Feb 01 2018 00:00:00 GMT-0500 (Eastern Standard Time)
 // new Date('2018-02-01')
 // Wed Jan 31 2018 19:00:00 GMT-0500 (Eastern Standard Time)
-export const reformatEuropeanDateToAmericanDate = dateString => {
+export const reformatISO8601DateToAmericanDate = dateString => {
   var asDate = new Date(Date.parse(dateString));
   return `${asDate.getUTCMonth() + 1}/${asDate.getUTCDate()}/${asDate.getUTCFullYear()}`;
 };
