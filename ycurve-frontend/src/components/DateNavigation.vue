@@ -1,8 +1,11 @@
 <template>
   <div id="date-navigation">
-    <div class="action-button yellow-bg" @click="dateDown()"><font-awesome-icon icon="angle-left" /></div>
+    <div class="action-button yellow-bg" @click="dateMoveDown()"><font-awesome-icon icon="angle-left" /></div>
     <input v-model="_viewerDate" />
-    <div class="action-button yellow-bg" @click="dateUp()"><font-awesome-icon icon="angle-right" /></div>
+    <div class="action-button yellow-bg" @click="dateMoveUp()"><font-awesome-icon icon="angle-right" /></div>
+    <div id="pin-yield-curve-button" class="action-button blue-bg" @click="pinYieldCurve()">
+      <font-awesome-icon icon="paperclip" />
+    </div>
   </div>
 </template>
 
@@ -12,15 +15,18 @@ import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faAngleLeft } from "@fortawesome/free-solid-svg-icons";
 import { faAngleRight } from "@fortawesome/free-solid-svg-icons";
+import { faPaperclip } from "@fortawesome/free-solid-svg-icons";
 import { AMERICAN_DATE_REGEX, formatDateAmerican, convertStringToDate, offsetDate } from "@/util/dateUtils";
 
 library.add(faAngleLeft);
 library.add(faAngleRight);
+library.add(faPaperclip);
 
 const EVENT_TYPES = {
   DATE_CHANGED: "date-changed",
   DATE_MOVE_UP: "date-move-up",
-  DATE_MOVE_DOWN: "date-move-down"
+  DATE_MOVE_DOWN: "date-move-down",
+  PIN_YIELD_CURVE: "pin-yield-curve"
 };
 
 const LOWER_DATE_LIMIT = new Date("1/31/1990");
@@ -61,15 +67,18 @@ export default {
     emitChangeDateEvent(eventType, baseDate) {
       this.$emit(eventType, baseDate)
     },
-    dateUp() {
+    dateMoveUp() {
       this.debouncedChangeDateEvent(EVENT_TYPES.DATE_MOVE_UP, this.viewerDate)
       // console.log('Anticipating date: ' + formatDateAmerican(offsetDate(convertStringToDate(this.viewerDate), 1)) + ' (current date='+ this.viewerDate  + ')')
       this.viewerDate = formatDateAmerican(offsetDate(convertStringToDate(this.viewerDate), 1))
     },
-    dateDown() {
+    dateMoveDown() {
       this.debouncedChangeDateEvent(EVENT_TYPES.DATE_MOVE_DOWN, this.viewerDate)
       // console.log('Anticipating date: ' + formatDateAmerican(offsetDate(convertStringToDate(this.viewerDate), -1)))
       this.viewerDate = formatDateAmerican(offsetDate(convertStringToDate(this.viewerDate), -1))
+    },
+    pinYieldCurve() {
+      this.$emit(EVENT_TYPES.PIN_YIELD_CURVE)
     },
     setViewerDateText(newDate) {
       this.viewerDate = newDate;
@@ -81,6 +90,10 @@ export default {
 <style scoped lang="scss">
 #date-navigation {
   text-align: left;
+}
+
+#pin-yield-curve-button {
+  margin-left: 20px;
 }
 
 input {
