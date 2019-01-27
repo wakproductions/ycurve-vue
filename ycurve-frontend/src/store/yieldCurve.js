@@ -1,10 +1,16 @@
 import { fetchYieldCurveSnapshot } from "@/util/fetchApi";
-import { COLORS, buildDataStruct, changeTopDatapoint, nextColor, resetDataset } from "@/util/buildDataStruct";
+import {
+  COLORS,
+  buildDataStruct,
+  changeTopDatapoint,
+  nextColor,
+  resetDataset
+} from "@/util/buildDataStruct";
 
 export const types = {
   SET_CHART_DATA: "SET_CHART_DATA",
   CHANGE_CHART_DATE: "CHANGE_CHART_DATE",
-  UPDATE_TOP_DATAPOINT: 'UPDATE_TOP_DATAPOINT',
+  UPDATE_TOP_DATAPOINT: "UPDATE_TOP_DATAPOINT",
   RESET_CHART_DATA: "RESET_CHART_DATA",
   TEST_CHANGE_TOP_DATAPOINT: "TEST_CHANGE_TOP_DATAPOINT"
 };
@@ -17,12 +23,12 @@ export const types = {
 export default {
   state: {
     // fetch_state: fetch_states.READY,
-    datasets: [],
+    datasets: []
     // currentViewerDate: ''
   },
   mutations: {
     [types.SET_CHART_DATA]: (state, newChartData) => {
-      state.datasets = newChartData
+      state.datasets = newChartData;
       // if(state.datasets.length == 0) {
       //   state.datasets = newChartData
       // } else {
@@ -37,12 +43,12 @@ export default {
       // }
       // state.currentViewerDate = newChartData[0].label
     },
-    [types.UPDATE_TOP_DATAPOINT]: (state, newChartData) => {
-      state.datasets = newChartData
-      // state.currentViewerDate = newChartData[0].label
-    },
-    [types.TEST_CHANGE_TOP_DATAPOINT]: (state) => {
-      console.log('changing top datapoint')
+    // [types.UPDATE_TOP_DATAPOINT]: (state, newChartData) => {
+    //   state.datasets = newChartData
+    //   //state.currentViewerDate = newChartData[0].label
+    // },
+    [types.TEST_CHANGE_TOP_DATAPOINT]: state => {
+      console.log("changing top datapoint");
       // state.datasets[0].data[5] = 4.3
       var newData = [
         2.21,
@@ -51,48 +57,55 @@ export default {
         2.73,
         2.94,
         3.01,
-        // 3.05,
         4.3,
         3.13,
         3.19,
         3.32,
         3.4
-      ]
-      state.datasets = [{
-        borderColor: undefined,
-        data: newData,
-        fill: true,
-        label: state.datasets[0].label
-      }]
+      ];
+      state.datasets = [
+        {
+          borderColor: undefined,
+          data: newData,
+          fill: true,
+          label: state.datasets[0].label
+        }
+      ];
     }
   },
   actions: {
-    [types.CHANGE_CHART_DATE]: ({ commit, state }, args) => {
+    [types.CHANGE_CHART_DATE]: async ({ commit, state }, args) => {
       var updatedDate = new Date(args.newDate);
       var offset = args.offset;
-      fetchYieldCurveSnapshot(updatedDate, offset).then(response => {
-        console.log('color' +  nextColor(state.datasets))
+
+      await fetchYieldCurveSnapshot(updatedDate, offset).then(response => {
         var newDatasets = changeTopDatapoint(state.datasets, buildDataStruct(response.data, COLORS[0]));
-        commit(types.SET_CHART_DATA, newDatasets)
-      })
+        commit(types.SET_CHART_DATA, newDatasets);
+      });
+      // console.log('done awaiting')
+
+      // return new Promise((resolve) => {
+      //   fetchYieldCurveSnapshot(updatedDate, offset).then(response => {
+      //     var newDatasets = changeTopDatapoint(state.datasets, buildDataStruct(response.data, COLORS[0]));
+      //     commit(types.SET_CHART_DATA, newDatasets);
+      //   });
+      //   console.log('resolving promise')
+      //   resolve();
+      // });
     },
     [types.RESET_CHART_DATA]: ({ commit }) => {
-      var currentDate = new Date;
+      var currentDate = new Date();
       fetchYieldCurveSnapshot(currentDate).then(response => {
-        var newDatasets = resetDataset(buildDataStruct(response.data, COLORS[0]));
-        commit(types.SET_CHART_DATA, newDatasets)
+        var newDatasets = resetDataset(
+          buildDataStruct(response.data, COLORS[0])
+        );
+        commit(types.SET_CHART_DATA, newDatasets);
       });
     },
     [types.TEST_CHANGE_TOP_DATAPOINT]: ({ commit }) => {
-      commit(types.TEST_CHANGE_TOP_DATAPOINT)
+      commit(types.TEST_CHANGE_TOP_DATAPOINT);
     }
   },
   getters: {},
-  methods: {
-    nextColor() {
-      // TODO move this into a function
-      // return "#881111";
-
-    }
-  }
+  methods: {}
 };

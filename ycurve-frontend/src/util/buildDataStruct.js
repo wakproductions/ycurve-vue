@@ -33,11 +33,12 @@ export const buildDataStruct = (apiData, color) => {
   ];
 
   return {
+    backgroundColor: color,
     borderColor: color,
     data: ycurve_datapoints,
+    date: reformatISO8601DateToAmericanDate(apiData[0].yield_curve_date),
     fill: false,
-    label: reformatISO8601DateToAmericanDate(apiData[0].yield_curve_date),
-    date: reformatISO8601DateToAmericanDate(apiData[0].yield_curve_date)
+    label: "Interest Rate"
   };
 };
 
@@ -47,10 +48,10 @@ export const addDataPoint = (apiData, currentDataset) => {
 }
 
 export const changeTopDatapoint = (currentFullDataset, newData) => {
-  var modifiedDataset = currentFullDataset
-  modifiedDataset.shift()
-  modifiedDataset.unshift(newData)
-  return modifiedDataset
+  currentFullDataset[0].data = newData.data
+  // console.log('setting top date to ' + newData.date)
+  currentFullDataset[0].date = newData.date
+  return currentFullDataset
 }
 
 export const nextColor = (currentDataset) => {

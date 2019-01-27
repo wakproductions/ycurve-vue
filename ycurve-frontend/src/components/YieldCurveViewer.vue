@@ -33,89 +33,107 @@
 </template>
 
 <script>
-  import { debounce } from 'lodash';
-  import { formatDateAmerican, convertStringToDate, offsetDate } from "@/util/dateUtils";
-  import store from '@/store/index';
-  import { types } from '@/store/yieldCurve'
-  import DateNavigation from './DateNavigation'
-  import AlertMessages from './AlertMessages'
-  import YieldCurveChart from './YieldCurveChart'
+import { debounce } from "lodash";
+import {
+  formatDateAmerican,
+  convertStringToDate,
+  offsetDate
+} from "@/util/dateUtils";
+import store from "@/store/index";
+import { types } from "@/store/yieldCurve";
+import DateNavigation from "./DateNavigation";
+import AlertMessages from "./AlertMessages";
+import YieldCurveChart from "./YieldCurveChart";
 
-  export default {
-    name: 'YieldCurveViewer',
-    data() {
+export default {
+  name: "YieldCurveViewer",
+  data() {
+    return {
+      chartOptions: {
+        responsive: true
+      },
+      viewerDate: ""
+    };
+  },
+  created() {
+    this.debouncedChangeCurrentDate = debounce(this.changeCurrentDate, 500);
+  },
+  components: {
+    AlertMessages,
+    DateNavigation,
+    YieldCurveChart
+  },
+  computed: {
+    chartData() {
       return {
-        chartOptions: {
-          responsive: true,
-        },
-        viewerDate: ''
-      }
+        labels: [
+          "1M",
+          "3M",
+          "6M",
+          "1Y",
+          "2Y",
+          "3Y",
+          "5Y",
+          "7Y",
+          "10Y",
+          "20Y",
+          "30Y"
+        ],
+        datasets: store.state.yieldCurve.datasets
+      };
+    }
+  },
+  methods: {
+    async changeCurrentDate(newBaseDate, offset) {
+      await store.dispatch(types.CHANGE_CHART_DATE, {
+        newDate: newBaseDate,
+        offset: offset
+      })
+      // console.log(
+      //   `Anticipated Date: ${newBaseDate} (${offset}) ` +
+      //   `Received Date: ${this.chartData.datasets[0].date}`
+      // );
+      this.updateViewerDateText();
+      this.updateChart();
     },
-    created() {
-      this.debouncedChangeCurrentDate = debounce(this.changeCurrentDate, 500)
+    onDateNavigationChanged(newDate) {
+      this.viewerDate = newDate;
+      this.debouncedChangeCurrentDate(newDate, 0);
     },
-    components: {
-      AlertMessages,
-      DateNavigation,
-      YieldCurveChart
+    onDateMoveUp(baseDate) {
+      this.changeCurrentDate(baseDate, 1);
     },
-    computed: {
-      chartData() {
-        return {
-            labels: [
-              "1M",
-              "3M",
-              "6M",
-              "1Y",
-              "2Y",
-              "3Y",
-              "5Y",
-              "7Y",
-              "10Y",
-              "20Y",
-              "30Y"
-            ],
-            datasets: store.state.yieldCurve.datasets
-        }
-      },
+    onDateMoveDown(baseDate) {
+      this.changeCurrentDate(baseDate, -1);
     },
-    methods: {
-      changeCurrentDate(newDate, offset)  {
-        store.dispatch(types.CHANGE_CHART_DATE, { newDate: newDate, offset: offset });
-      },
-      onDateNavigationChanged(newDate) {
-        this.viewerDate = newDate
-        this.debouncedChangeCurrentDate(newDate, 0)
-      },
-      onDateMoveUp(baseDate) {
-        // console.log('up on basedate: ' + baseDate)
-        this.changeCurrentDate(baseDate, 1)
-      },
-      onDateMoveDown(baseDate) {
-        // console.log('down on basedate: ' + baseDate)
-        this.changeCurrentDate(baseDate, -1)
-        this.updateChart()
-      },
-      onPinYieldCurve() {
-        store.dispatch(types.TEST_CHANGE_TOP_DATAPOINT)
-        this.updateChart()
-      },
-      updateChart() {
-        console.log('update chart from action triggered')
-        this.$refs.yieldCurveChart.updateChart();
-      }
+    onPinYieldCurve() {
+      // store.dispatch(types.TEST_CHANGE_TOP_DATAPOINT)
+      this.updateChart();
     },
-    watch: {
-      chartData() {
-        // When moving up and down in time the date we get back from the API is often a different date than what we
-        // think it is because of weekends and holidays
-        this.$refs.dateNavigation.setViewerDateText(this.chartData.datasets[0].date)
-      }
+    updateChart() {
+      this.$refs.yieldCurveChart.updateChart();
     },
-    mounted() {
-      store.dispatch(types.RESET_CHART_DATA);
-    },
-  };
+    updateViewerDateText() {
+      // console.log('setting viewer text to ' + this.chartData.datasets[0].date)
+      this.$refs.dateNavigation.setViewerDateText(
+        this.chartData.datasets[0].date
+      );
+    }
+  },
+  watch: {
+    chartData() {
+      // When moving up and down in time the date we get back from the API is often a different date than what we
+      // think it is because of weekends and holidays
+      // console.log("setting viewer text to " + this.chartData.datasets[0].date);
+      this.$refs.dateNavigation.setViewerDateText(
+        this.chartData.datasets[0].date
+      );
+    }
+  },
+  mounted() {
+    store.dispatch(types.RESET_CHART_DATA);
+  }
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
