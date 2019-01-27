@@ -55,7 +55,6 @@ export default {
         }
 
         var parsedDate = new Date(newDate);
-        console.log('Changing Date ' + parsedDate)
         if (parsedDate >= LOWER_DATE_LIMIT && parsedDate <= new Date()) {
           this.viewerDate = formatDateAmerican(parsedDate);
           this.$emit("date-changed", this.viewerDate);

@@ -17,7 +17,7 @@ export const COLORS = [
   "#0dbab1"
 ];
 
-export const buildDataStruct = (apiData, color, label = "Interest Rate") => {
+export const buildDataStruct = (apiData, color) => {
   var ycurve_datapoints = [
     apiData[0].yield_1m,
     apiData[0].yield_3m,
@@ -38,7 +38,7 @@ export const buildDataStruct = (apiData, color, label = "Interest Rate") => {
     data: ycurve_datapoints,
     date: reformatISO8601DateToAmericanDate(apiData[0].yield_curve_date),
     fill: false,
-    label: label
+    label: "Interest Rate"
   };
 };
 
