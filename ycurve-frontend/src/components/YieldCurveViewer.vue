@@ -28,7 +28,6 @@
         />
       </div>
     </div>
-    <a href="" @click.prevent="newData">Click this link</a>
   </div>
 </template>
 
@@ -88,7 +87,7 @@ export default {
       await store.dispatch(types.CHANGE_CHART_DATE, {
         newDate: newBaseDate,
         offset: offset
-      })
+      });
       // console.log(
       //   `Anticipated Date: ${newBaseDate} (${offset}) ` +
       //   `Received Date: ${this.chartData.datasets[0].date}`
@@ -107,8 +106,11 @@ export default {
       this.changeCurrentDate(baseDate, -1);
     },
     onPinYieldCurve() {
-      // store.dispatch(types.TEST_CHANGE_TOP_DATAPOINT)
+      store.dispatch(types.PIN_DATA_FOR_DATE, { date: this.navigationViewerDate() });
       this.updateChart();
+    },
+    navigationViewerDate() {
+      return this.$refs.dateNavigation.viewerDate;
     },
     updateChart() {
       this.$refs.yieldCurveChart.updateChart();
@@ -132,7 +134,7 @@ export default {
   },
   mounted() {
     store.dispatch(types.RESET_CHART_DATA);
-  }
+  },
 };
 </script>
 
