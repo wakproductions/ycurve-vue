@@ -1,0 +1,7 @@
+{
+  "name": "ycurve",
+  "private": true,
+  "dependencies": {
+    "chart.js": "^2.7.2"
+  }
+}

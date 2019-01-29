@@ -1,0 +1,189 @@
+%h1.center US Treasuries Yield Curve
+
+.section-chart
+  .container
+
+    .row
+      .col-md-offset-1.col-md-10#chart-navigation{ style: 'padding-left: 50px;' }
+        .action-button.yellow-bg#date-navigate-backward{ style: 'margin-right: 3px;'}
+          %i.fa.fa-lg.fa-angle-left{ 'aria-hidden': "true" }
+        =text_date_navigation
+        .action-button.yellow-bg#date-navigate-forward{ style: 'margin-left: 3px;'}
+          %i.fa.fa-lg.fa-angle-right{ 'aria-hidden': "true" }
+        .action-button.blue-bg#stick-current-graph{ style: 'margin-left: 30px;'}
+          %i.fa.fa-lg.fa-paperclip{ 'aria-hidden': "true" }
+    .row
+      .col-md-offset-1.col-md-10.interest-rate-chart.center
+
+        #chart-canvas-horizontal
+          #chart-canvas{ style: 'position: relative; max-width: 877px;' }
+            %canvas#chartTreasuryYieldCurve
+
+    .row
+      .col-lg-12.center
+        = "For an explanation: #{link_to('Term Structure of Interest Rates', 'http://www.investopedia.com/terms/t/termstructure.asp', target: '_blank')}".html_safe
+
+    .row{ style: 'margin-top: 25px;'}
+      .col-md-offset-1.col-md-5{ style: 'height: 40px; padding-top: 10px; text-align: left; border-left: 1px solid black; border-top: 1px solid black; border-bottom: 1px solid black;' }
+        = link_to('Contact', 'mailto:wak@wakproductions.com')
+      .col-md-5{ style: 'height: 40px; padding-top: 10px; text-align: right; border-right: 1px solid black; border-top: 1px solid black; border-bottom: 1px solid black;' }
+        :erb
+          <iframe src="https://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.ustreasuryyieldcurve.com%2F&width=61&layout=button_count&action=like&size=small&show_faces=false&share=false&height=21" width="61" height="21" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true"></iframe>
+          <a href="https://twitter.com/share" class="twitter-share-button" data-via="GreenspudTrades" data-show-count="false">Tweet</a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+
+:javascript
+  window.chartColors = {
+    blue: 'rgb(54, 162, 235)',
+    red: 'rgb(255, 99, 132)',
+    yellow: 'rgb(255, 205, 86)',
+    green: 'rgb(75, 192, 192)',
+    orange: 'rgb(255, 159, 64)',
+    purple: 'rgb(153, 102, 255)',
+    grey: 'rgb(201, 203, 207)'
+  };
+  const TERMS = ['1M', '3M', '6M', '1Y', '2Y', '3Y', '5Y', '7Y', '10Y', '20Y', '30Y']
+  var config = {
+      type: 'line',
+      data: {
+          labels: TERMS,
+          datasets: []
+      },
+      options: {
+          responsive: true,
+          title:{
+              display:true,
+              text:'US Treasuries Yield Curve',
+          },
+          tooltips: {
+              mode: 'index',
+              intersect: false,
+          },
+          hover: {
+              mode: 'nearest',
+              intersect: true
+          },
+          scales: {
+              xAxes: [{
+                  display: true,
+                  scaleLabel: {
+                      display: true,
+                      labelString: 'Term'
+                  }
+              }],
+              yAxes: [{
+                  display: true,
+                  scaleLabel: {
+                      display: true,
+                      labelString: 'Yield (%)'
+                  }
+              }]
+          }
+      },
+  };
+
+  setDateNavigationText = function(text) {
+    $('input#text-date-navigation').val(text)
+  }
+
+  selectedDate = function() {
+    return new Date($('input#text-date-navigation').val());
+  }
+
+  addData = function(yield_curve_date, values) {
+    var newDataset = {
+      label: "As of " + yield_curve_date,
+      backgroundColor: nextChartColor(config.data.datasets.length + 1),
+      borderColor: nextChartColor(config.data.datasets.length + 1),
+      data: values,
+      fill: false,
+    };
+
+    config.data.datasets.push(newDataset);
+    window.chartTreasuryYieldCurve.update();
+  }
+
+  removeTopDataset = function() {
+    config.data.datasets.pop();
+    window.chartTreasuryYieldCurve.update();
+  }
+
+  formatDate = function(date, format) {
+    var day = date.getDate();
+    var month = date.getMonth() + 1;
+    var year = date.getFullYear();
+
+    var pad = "00";
+
+    if(format=='YYYYMMDD') {
+      return year + pad.substring(0, pad.length - month.toString().length) + month + pad.substring(0, pad.length - day.toString().length) + day;
+    } else {
+      return month + '/' + day + '/' + year;
+    };
+  }
+
+  fetchData = function(as_of_date, replace=false, offset=0) {
+    if(as_of_date==null) as_of_date = new Date();
+
+    $.get('/api/v1/yield_curve_snapshot', {date: formatDate(as_of_date, 'YYYYMMDD'), offset: offset}, function(data) {
+        if(replace) {
+          removeTopDataset();
+        };
+        sDate = formatDate(new Date(Date.parse(data[0]['yield_curve_date'].replace(/-/g, '/') + " GMT-0400 (EDT)")))
+        addData(
+          sDate,
+          [
+            parseFloat(data[0]['yield_1m']),
+            parseFloat(data[0]['yield_3m']),
+            parseFloat(data[0]['yield_6m']),
+            parseFloat(data[0]['yield_1y']),
+            parseFloat(data[0]['yield_2y']),
+            parseFloat(data[0]['yield_3y']),
+            parseFloat(data[0]['yield_5y']),
+            parseFloat(data[0]['yield_7y']),
+            parseFloat(data[0]['yield_10y']),
+            parseFloat(data[0]['yield_20y']),
+            parseFloat(data[0]['yield_30y']),
+          ]
+        );
+        setDateNavigationText(sDate);
+    });
+  }
+
+  nextChartColor = function(datasetnum) {
+    chartColors = Object.values(window.chartColors);
+    return chartColors[datasetnum % chartColors.length - 1];
+  };
+
+  window.onload = function() {
+      var ctx = document.getElementById("chartTreasuryYieldCurve").getContext("2d");
+      window.chartTreasuryYieldCurve = new Chart(ctx, config);
+      fetchData();
+  };
+
+  $("#text-date-navigation").datepicker({
+    onSelect: function(dateText, inst) {
+        var date = new Date($(this).val());
+        fetchData(date, true)
+    }
+  });
+
+  $("#date-navigate-backward").click(function() {
+      fetchData(new Date(selectedDate()), true, -1);
+    }
+  )
+
+  $("#date-navigate-forward").click(function() {
+      fetchData(new Date(selectedDate()), true, 1);
+    }
+  )
+
+  $("#stick-current-graph").click(function() {
+      fetchData(new Date(selectedDate()), false);
+    }
+  )
+
+
+
+
+= render partial: 'google_analytics'

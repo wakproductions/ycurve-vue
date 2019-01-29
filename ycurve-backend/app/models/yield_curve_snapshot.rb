@@ -1,0 +1,2 @@
+class YieldCurveSnapshot < ApplicationRecord
+end
