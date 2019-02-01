@@ -8,11 +8,11 @@ namespace :custom do
       puts "================Starting Docker setup===================="
       # Working directory hack
       # https://stackoverflow.com/questions/19452983/capistrano-3-execute-within-a-directory
-      execute "cd #{fetch(:deploy_to)}/current/"
-      execute "docker-compose build"
-      execute "docker-compose down"
-      execute "docker-compose up -d"
-      execute "docker network prune -f"
+      # execute "cd #{fetch(:deploy_to)}/current/"
+      execute "cd /var/www/ustreasuryyieldcurve-com/current; sudo docker-compose build"
+      execute "cd /var/www/ustreasuryyieldcurve-com/current; sudo docker-compose down"
+      execute "cd /var/www/ustreasuryyieldcurve-com/current; sudo docker-compose up -d"
+      execute "sudo docker network prune -f"
 
       # Run the daemons
       # execute "cd #{fetch(:deploy_to)}/current; sudo docker-compose run -d web bundle exec rake yield_curve_snapshots:run_update_daemon"
