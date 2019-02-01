@@ -1,6 +1,4 @@
-set :deploy_to, '/var/www/ycurve'
-
-set :repo_url, 'git@github.com:wakproductions/ycurve.git'
+set :repo_url, 'git@github.com:wakproductions/ycurve-vue.git'
 set :scm, :git
 
-set :docker_container_name, 'ycurve'
+# set :docker_container_name, 'ycurve'

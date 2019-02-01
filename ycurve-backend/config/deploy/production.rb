@@ -1,4 +1,6 @@
-server 'ycurve-production', user: 'ubuntu', roles: %w{web app db}
+server 'ustreasuryyieldcurve', user: 'mikepence', roles: %w{web app db}
+
+set :deploy_to, '/var/www/ustreasuryyieldcurve-com'
 
 namespace :custom do
   task :setup_container do
@@ -7,7 +9,8 @@ namespace :custom do
       # Working directory hack
       # https://stackoverflow.com/questions/19452983/capistrano-3-execute-within-a-directory
       execute "cd #{fetch(:deploy_to)}/current; sudo docker-compose build"
-      execute "cd #{fetch(:deploy_to)}/current; sudo bin/run-production"
+      execute "cd #{fetch(:deploy_to)}/current; sudo docker-compose down"
+      execute "cd #{fetch(:deploy_to)}/current; sudo docker-compose up -d"
       execute "sudo docker network prune -f"
 
       # Run the daemons
