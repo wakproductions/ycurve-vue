@@ -4,4 +4,7 @@ set :scm, :git
 # set :docker_container_name, 'ycurve
 
 append :linked_files,
-  '.env',
+  '.env'
+
+append :linked_dirs,
+  './data'

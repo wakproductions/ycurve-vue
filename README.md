@@ -8,4 +8,9 @@ to be built from the script `build-vue.sh`, which when run will build the front 
 
 ```
 docker-compose up web
-``` 
+```
+
+## Production Server File Locations
+
+`/var/www/ustreasuryyieldcurve-com`
+
