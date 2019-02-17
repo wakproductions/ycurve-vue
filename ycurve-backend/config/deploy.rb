@@ -7,4 +7,4 @@ append :linked_files,
   '.env'
 
 append :linked_dirs,
-  './data'
+  './ycurve-backend/log'
