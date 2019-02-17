@@ -9,8 +9,9 @@ namespace :custom do
       # Working directory hack
       # https://stackoverflow.com/questions/19452983/capistrano-3-execute-within-a-directory
       # execute "cd #{fetch(:deploy_to)}/current/"
-      execute "cd /var/www/ustreasuryyieldcurve-com/current; sudo docker-compose build"
       execute "cd /var/www/ustreasuryyieldcurve-com/current; sudo docker-compose down"
+      execute "cd /var/www/ustreasuryyieldcurve-com/current; sudo docker-compose build"
+      execute "cd /var/www/ustreasuryyieldcurve-com/current; sudo docker-compose run web rake db:migrate"
       execute "cd /var/www/ustreasuryyieldcurve-com/current; sudo docker-compose up -d"
       execute "sudo docker network prune -f"
 
