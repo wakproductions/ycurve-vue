@@ -7,14 +7,14 @@ module Treasury
     input :month, :year
 
     def call
-      Net::HTTP.get(api_uri) { |http| http.read }
+      HTTParty.get(api_uri, follow_redirects: true)
     end
 
     private
 
     def api_uri
       @api_url ||= URI.parse(
-        "http://data.treasury.gov/feed.svc/DailyTreasuryYieldCurveRateData?$filter=month(NEW_DATE)%20eq%20#{month}%20and%20year(NEW_DATE)%20eq%20#{year}"
+        URI::encode("http://data.treasury.gov/feed.svc/DailyTreasuryYieldCurveRateData?$filter=month(NEW_DATE) eq #{month} and year(NEW_DATE) eq #{year}")
       )
     end
 
