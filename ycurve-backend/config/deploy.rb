@@ -4,9 +4,10 @@ set :scm, :git
 # set :docker_container_name, 'ycurve
 
 append :linked_files,
-  '.env',
-  'docker-compose.yml',
-  'docker-compose.production.yml'
+  '.env'
 
-append :linked_dirs,
-  './ycurve-backend/log'
+# Don't symlink log folder because Docker pulls the symlink and not the actual folder
+# append :linked_dirs,
+#   './ycurve-backend/log'
+
+set :keep_releases, 5
