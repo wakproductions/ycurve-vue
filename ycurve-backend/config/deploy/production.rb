@@ -10,8 +10,9 @@ namespace :custom do
       # Working directory hack
       # https://stackoverflow.com/questions/19452983/capistrano-3-execute-within-a-directory
 
-      execute "cd #{fetch(:deploy_to)}/current; sudo docker kill #{fetch(:containers).join(' ')}"
-      execute "cd #{fetch(:deploy_to)}/current; sudo docker rm #{fetch(:containers).join(' ')}"
+      # https://stackoverflow.com/questions/758774/capistrano-bash-ignore-command-exit-status
+      execute "cd #{fetch(:deploy_to)}/current; sudo docker kill #{fetch(:containers).join(' ')}; true"
+      execute "cd #{fetch(:deploy_to)}/current; sudo docker rm #{fetch(:containers).join(' ')}; true"
 
       execute "cd #{fetch(:deploy_to)}/current; sudo docker-compose build"
       execute "cd #{fetch(:deploy_to)}/current; sudo docker-compose run web rake db:migrate"
