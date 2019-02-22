@@ -1,7 +1,7 @@
 import axios from "axios";
 import { formatDateISO8601 } from "@/util/dateUtils";
 
-const base_url=process.env.API_SERVER_URL;
+const base_url=process.env.VUE_APP_API_SERVER_URL;
 export const apiEndpoints = {
   YIELD_CURVE_SNAPSHOT: 'api/v1/yield_curve_snapshot'
 }
