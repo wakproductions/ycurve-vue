@@ -37,8 +37,8 @@ services:
     #    ports:
     #      - "5444:5432"
     volumes:
-      - "./data/postgres_data_965:${DB_DATA_DIR}"
-      - "./data/postgres_backups:/postgres_backups"
+      - "ycurve_database_postgres965:${DB_DATA_DIR}"
+#      - "./data/postgres_backups:/postgres_backups" # Instead write a script to backup the volume now
 
 
   update-daemon:
@@ -62,3 +62,6 @@ services:
 
 networks:
   ycurve:
+
+volumes:
+  ycurve_database_postgres965:

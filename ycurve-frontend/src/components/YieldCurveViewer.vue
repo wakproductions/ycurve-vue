@@ -33,11 +33,6 @@
 
 <script>
 import { debounce } from "lodash";
-import {
-  formatDateAmerican,
-  convertStringToDate,
-  offsetDate
-} from "@/util/dateUtils";
 import store from "@/store/index";
 import { types } from "@/store/yieldCurve";
 import DateNavigation from "./DateNavigation";
