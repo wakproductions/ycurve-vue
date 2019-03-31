@@ -1,7 +1,7 @@
 <template>
   <div id="date-navigation">
     <div class="action-button yellow-bg" @click="dateMoveDown()"><font-awesome-icon icon="angle-left" /></div>
-    <input v-model="_viewerDate" />
+    <input id="dateSelector" type="text" v-model="_viewerDate" />
     <div class="action-button yellow-bg" @click="dateMoveUp()"><font-awesome-icon icon="angle-right" /></div>
     <div id="pin-yield-curve-button" class="action-button blue-bg" @click="pinYieldCurve()">
       <font-awesome-icon icon="paperclip" />
@@ -10,6 +10,7 @@
 </template>
 
 <script>
+import datepicker from "js-datepicker";
 import { debounce } from "lodash";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -36,7 +37,7 @@ export default {
   components: {
     FontAwesomeIcon
   },
-  created: function() {
+  created() {
     this.debouncedChangeDateEvent = debounce(this.emitChangeDateEvent, 800);
   },
   data() {
@@ -58,35 +59,49 @@ export default {
         if (parsedDate >= LOWER_DATE_LIMIT && parsedDate <= new Date()) {
           this.viewerDate = formatDateAmerican(parsedDate);
           this.$emit("date-changed", this.viewerDate);
-        } // TODO else display an error message
+        } // TODO else display an error message that the date being entered is invalid
       }
     }
   },
   methods: {
     emitChangeDateEvent(eventType, baseDate) {
-      this.$emit(eventType, baseDate)
+      this.$emit(eventType, baseDate);
     },
     dateMoveUp() {
-      this.debouncedChangeDateEvent(EVENT_TYPES.DATE_MOVE_UP, this.viewerDate)
+      this.debouncedChangeDateEvent(EVENT_TYPES.DATE_MOVE_UP, this.viewerDate);
       // console.log('Anticipating date: ' + formatDateAmerican(offsetDate(convertStringToDate(this.viewerDate), 1)) + ' (current date='+ this.viewerDate  + ')')
-      this.viewerDate = formatDateAmerican(offsetDate(convertStringToDate(this.viewerDate), 1))
+      this.viewerDate = formatDateAmerican(offsetDate(convertStringToDate(this.viewerDate), 1));
     },
     dateMoveDown() {
-      this.debouncedChangeDateEvent(EVENT_TYPES.DATE_MOVE_DOWN, this.viewerDate)
+      this.debouncedChangeDateEvent(EVENT_TYPES.DATE_MOVE_DOWN, this.viewerDate);
       // console.log('Anticipating date: ' + formatDateAmerican(offsetDate(convertStringToDate(this.viewerDate), -1)))
-      this.viewerDate = formatDateAmerican(offsetDate(convertStringToDate(this.viewerDate), -1))
+      this.viewerDate = formatDateAmerican(offsetDate(convertStringToDate(this.viewerDate), -1));
+    },
+    datepickerSelect(instance, date) {
+      this._viewerDate = date.toLocaleDateString();
     },
     pinYieldCurve() {
-      this.$emit(EVENT_TYPES.PIN_YIELD_CURVE)
+      this.$emit(EVENT_TYPES.PIN_YIELD_CURVE);
     },
     setViewerDateText(newDate) {
       this.viewerDate = newDate;
+      this.$jsdatepicker.setDate(new Date(newDate), true)
     }
+  },
+  mounted() {
+    this.$jsdatepicker = datepicker("#dateSelector", {
+      onSelect: this.datepickerSelect,
+      formatter: (instance, date) => {
+        instance.value = date.toLocaleDateString();
+      }
+    });
   }
 };
 </script>
 
 <style scoped lang="scss">
+// The associated stylesheet is included in App.vue
+
 #date-navigation {
   text-align: left;
 }

@@ -4069,6 +4069,10 @@ js-base64@^2.1.8:
   version "2.4.8"
   resolved "https://registry.yarnpkg.com/js-base64/-/js-base64-2.4.8.tgz#57a9b130888f956834aa40c5b165ba59c758f033"
 
+js-datepicker@^4.0.10:
+  version "4.0.10"
+  resolved "https://registry.yarnpkg.com/js-datepicker/-/js-datepicker-4.0.10.tgz#97e837fe09e0bab50a7997e7d8c9b7a1dc9f8d2b"
+
 js-message@1.0.5:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/js-message/-/js-message-1.0.5.tgz#2300d24b1af08e89dd095bc1a4c9c9cfcb892d15"

@@ -7,7 +7,6 @@
 
 <script>
 import store from "./store"
-import DateNavigation from './components/DateNavigation.vue';
 import HeadingTitle from "./components/HeadingTitle.vue";
 // import SocialMediaLinks from "./components/SocialMediaLinks.vue";
 import YieldCurveViewer from "./components/YieldCurveViewer.vue";
@@ -28,6 +27,8 @@ export default {
 
 <style lang="scss">
 @import "stylesheets/bootstrap-includes.scss";
+@import 'node_modules/js-datepicker/dist/datepicker.min';
+
 
 #app {
   /*font-family: "Arial", Helvetica, Arial, sans-serif;*/

@@ -1,1 +1,3 @@
-module.exports = { configureWebpack: {  } }
+module.exports = {
+  configureWebpack: {  }
+}
