@@ -5,6 +5,6 @@ services:
 #    command: ["./wait-for-database.sh", "database", "5432", "--", "rake assets:precompile && bundle exec rails s -p 3000"]
     command: ["./wait-for-database.sh", "database", "5432", "--", "bundle exec rails s -p 3000"]
     volumes:
-      - /var/www/ustreasuryyieldcurve-com/shared/ycurve-backend/log:/app/log
+#      - /var/www/ustreasuryyieldcurve-com/shared/ycurve-backend/log:/app/log
 #      No asset precompile because SPA
 #      - ./public:/app/public
