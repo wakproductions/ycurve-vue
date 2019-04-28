@@ -6,6 +6,9 @@ set :scm, :git
 append :linked_files,
   '.env'
 
+append :linked_dirs,
+  'backups'
+
 # Don't symlink log folder because Docker pulls the symlink and not the actual folder
 # append :linked_dirs,
 #   './ycurve-backend/log'

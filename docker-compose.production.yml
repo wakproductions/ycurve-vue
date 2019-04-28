@@ -8,3 +8,8 @@ services:
 #      - /var/www/ustreasuryyieldcurve-com/shared/ycurve-backend/log:/app/log
 #      No asset precompile because SPA
 #      - ./public:/app/public
+
+  database:
+    volumes:
+      - "ycurve_database_postgres965:/var/lib/postgresql/data/"
+
