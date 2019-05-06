@@ -13,7 +13,7 @@ export const types = {
   CHANGE_CHART_DATE: "CHANGE_CHART_DATE",
   RESET_CHART_DATA: "RESET_CHART_DATA",
   SET_CHART_DATA: "SET_CHART_DATA",
-  TEST_CHANGE_TOP_DATAPOINT: "TEST_CHANGE_TOP_DATAPOINT"
+  CHANGE_TOP_DATAPOINT: "CHANGE_TOP_DATAPOINT"
 };
 
 // export const fetch_states = {
@@ -47,20 +47,21 @@ export default {
       await fetchYieldCurveSnapshot(dateToPin, 0).then(response => {
         var newData = buildDataStruct(response.data, nextColor(state.datasets));
         newData.label = `Interest Rate ${newData.date}`
-        
+
         var newDatasets = addDatapoint(state.datasets, newData);
         commit(types.SET_CHART_DATA, newDatasets);
       });
     },
     [types.RESET_CHART_DATA]: ({ commit }) => {
-      var currentDate = new Date();
+      var currentDate = new Date('1977-04-26');
       fetchYieldCurveSnapshot(currentDate).then(response => {
         var newDatasets = resetDataset(buildDataStruct(response.data, COLORS[0]));
         commit(types.SET_CHART_DATA, newDatasets);
       });
     },
-    [types.TEST_CHANGE_TOP_DATAPOINT]: ({ commit }) => {
-      commit(types.TEST_CHANGE_TOP_DATAPOINT);
+    [types.CHANGE_TOP_DATAPOINT]: () => {
+      // var newDatasets = changeTopDatapoint(state.datasets, args.newDatapoint);
+      // commit(types.SET_CHART_DATA, newDatasets);
     }
   },
   getters: {},

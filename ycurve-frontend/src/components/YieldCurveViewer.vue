@@ -44,7 +44,8 @@ export default {
   data() {
     return {
       chartOptions: {
-        responsive: true
+        responsive: true,
+        spanGaps: true
       },
       viewerDate: ""
     };
@@ -129,7 +130,7 @@ export default {
   },
   mounted() {
     store.dispatch(types.RESET_CHART_DATA);
-  },
+  }
 };
 </script>
 

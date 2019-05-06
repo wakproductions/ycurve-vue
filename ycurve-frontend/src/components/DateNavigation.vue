@@ -30,7 +30,7 @@ const EVENT_TYPES = {
   PIN_YIELD_CURVE: "pin-yield-curve"
 };
 
-const LOWER_DATE_LIMIT = new Date("1/31/1990");
+const LOWER_DATE_LIMIT = new Date("1/1/1934");
 
 export default {
   name: "DateNavigation",
