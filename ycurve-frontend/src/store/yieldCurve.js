@@ -53,7 +53,7 @@ export default {
       });
     },
     [types.RESET_CHART_DATA]: ({ commit }) => {
-      var currentDate = new Date('1977-04-26');
+      var currentDate = new Date();
       fetchYieldCurveSnapshot(currentDate).then(response => {
         var newDatasets = resetDataset(buildDataStruct(response.data, COLORS[0]));
         commit(types.SET_CHART_DATA, newDatasets);
