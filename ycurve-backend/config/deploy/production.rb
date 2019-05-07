@@ -16,7 +16,7 @@ namespace :custom do
 
       execute "cd #{fetch(:deploy_to)}/current; sudo docker-compose build"
       execute "cd #{fetch(:deploy_to)}/current; sudo docker-compose run web rake db:migrate"
-      execute "cd #{fetch(:deploy_to)}/current; sudo docker-compose up -d"
+      execute "cd #{fetch(:deploy_to)}/current; sudo docker-compose -f docker-compose.yml -f docker-compose.production.yml up -d"
       execute "sudo docker network prune -f"
 
       # Run the daemons
