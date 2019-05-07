@@ -37,7 +37,7 @@ services:
     ports:
       - "5444:5432"
     volumes:
-      - "./data/postgres_data_965:/var/lib/postgresql/data/"
+      - "ycurve_database_postgres965:/var/lib/postgresql/data/"
       - "./data/postgres_backups:/postgres_backups" # Instead write a script to backup the volume now
 
 
