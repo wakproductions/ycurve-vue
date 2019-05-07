@@ -25,6 +25,5 @@
 .env.production
 .env
 
-/data/*
 /gitignore/*
 
