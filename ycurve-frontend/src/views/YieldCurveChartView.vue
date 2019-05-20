@@ -1,5 +1,6 @@
 <template>
   <div class="container-fluid">
+    <heading-title/>
     <div class="row justify-content-md-center">
       <div class="col-sm-8">
         <!--<alert-messages></alert-messages>-->
@@ -35,12 +36,12 @@
 import { debounce } from "lodash";
 import store from "@/store/index";
 import { types } from "@/store/yieldCurve";
-import DateNavigation from "./DateNavigation";
-import AlertMessages from "./AlertMessages";
-import YieldCurveChart from "./YieldCurveChart";
+import DateNavigation from "./YieldCurveViewer/DateNavigation";
+import HeadingTitle from "./YieldCurveViewer/HeadingTitle";
+import YieldCurveChart from "./YieldCurveViewer/YieldCurveChart";
 
 export default {
-  name: "YieldCurveViewer",
+  name: "YieldCurveChartView",
   data() {
     return {
       chartOptions: {
@@ -54,8 +55,8 @@ export default {
     this.debouncedChangeCurrentDate = debounce(this.changeCurrentDate, 500);
   },
   components: {
-    AlertMessages,
     DateNavigation,
+    HeadingTitle,
     YieldCurveChart
   },
   computed: {
