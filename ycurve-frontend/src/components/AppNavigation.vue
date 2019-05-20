@@ -7,7 +7,7 @@
 
         <b-navbar-nav>
           <b-nav-item href="/">Chart</b-nav-item>
-          <!--<b-nav-item href="#">FAQ</b-nav-item>-->
+          <b-nav-item href="/faq">FAQ</b-nav-item>
           <b-nav-item href="/contact">Contact</b-nav-item>
         </b-navbar-nav>
 
