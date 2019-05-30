@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-cd ycurve-backend/
+cd backend/
 cap production deploy
 
 cd ..

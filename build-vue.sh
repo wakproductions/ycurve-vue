@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
-cd ./ycurve-frontend
+cd ./frontend
 yarn run build
-rm -r ../ycurve-backend/public/js
-rm -r ../ycurve-backend/public/css
-rm -r ../ycurve-backend/public/index.html
-mv dist/* ../ycurve-backend/public
+rm -r ../backend/public/js
+rm -r ../backend/public/css
+rm -r ../backend/public/index.html
+mv dist/* ../backend/public
 cd ../
