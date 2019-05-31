@@ -1,8 +1,8 @@
 version: '3'
 services:
   frontend:
-    command: ["yarn", "serve"]
     ports:
-      - "5445:8080"
+      - "8035:8080"
+    command: ["yarn", "serve"]
 
 
