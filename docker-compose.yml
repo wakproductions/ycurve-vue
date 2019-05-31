@@ -5,7 +5,7 @@ services:
     container_name: ycurve_backend
     # need the sleep to wait for the DB service to get up and running
     command: ["./wait-for-database.sh", "database", "5432", "--", "bundle exec rails s -b 0.0.0.0 -p 3000"]
-    entrypoint: ["./backend/scripts/docker-entry.sh"]
+    entrypoint: ["./scripts/docker-entry.sh"]
     depends_on:
       - database
 #    entrypoint: ['./scripts/docker-entry.sh']
