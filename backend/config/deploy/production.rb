@@ -1,4 +1,4 @@
-server 'ustreasuryyieldcurve', user: 'deployuser', roles: %w{web app db}
+server 'ustreasuryyieldcurve', user: 'mikepence', roles: %w{web app db}
 
 set :deploy_to, '/var/www/ustreasuryyieldcurve-com'
 set :containers, %w(ycurve_backend ycurve_frontend ycurve_database ycurve_update_daemon)
