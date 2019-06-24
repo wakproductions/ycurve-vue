@@ -11,12 +11,12 @@ import FaqText from "./FrequentlyAskedQuestions/faq.md";
 export default {
   name: "FrequentlyAskedQuestionsView",
   components: {
-  VueMarkdown
+    VueMarkdown
   },
   data() {
     return {
       pageHtml: FaqText
-    }
+    };
   },
   props: {}
 };

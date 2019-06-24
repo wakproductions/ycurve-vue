@@ -5,13 +5,11 @@
 </template>
 
 <script>
-  export default {
-    name: "ContactView",
-    props: {}
-  };
+export default {
+  name: "ContactView",
+  props: {}
+};
 </script>
 
 <style scoped lang="scss">
-
-
 </style>

@@ -4,13 +4,13 @@ export const AMERICAN_DATE_REGEX = /\d{1,2}\/\d{1,2}\/\d\d\d\d/;
 export const convertStringToDate = dateString => {
   // var americanDate = reformatISO8601DateToAmericanDate(dateString);
   // return new Date(americanDate);
-  return new Date(dateString)
+  return new Date(dateString);
 };
 
 export const offsetDate = (startDate, offset) => {
   var dateObj = convertStringToDate(startDate);
-  return new Date(dateObj.valueOf() + (60 * 60 * 24 * 1000 * offset))
-}
+  return new Date(dateObj.valueOf() + 60 * 60 * 24 * 1000 * offset);
+};
 
 // TODO Do this based on regex because the date interpreter has time zone issue
 // new Date('2/1/2018')

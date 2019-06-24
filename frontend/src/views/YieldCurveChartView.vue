@@ -36,9 +36,9 @@
 import { debounce } from "lodash";
 import store from "@/store/index";
 import { types } from "@/store/yieldCurve";
-import DateNavigation from "./YieldCurveViewer/DateNavigation";
-import HeadingTitle from "./YieldCurveViewer/HeadingTitle";
-import YieldCurveChart from "./YieldCurveViewer/YieldCurveChart";
+import DateNavigation from "@/components/YieldCurveViewer/DateNavigation";
+import HeadingTitle from "@/components/YieldCurveViewer/HeadingTitle";
+import YieldCurveChart from "@/components/YieldCurveViewer/YieldCurveChart";
 
 export default {
   name: "YieldCurveChartView",
@@ -62,19 +62,7 @@ export default {
   computed: {
     chartData() {
       return {
-        labels: [
-          "1M",
-          "3M",
-          "6M",
-          "1Y",
-          "2Y",
-          "3Y",
-          "5Y",
-          "7Y",
-          "10Y",
-          "20Y",
-          "30Y"
-        ],
+        labels: ["1M", "3M", "6M", "1Y", "2Y", "3Y", "5Y", "7Y", "10Y", "20Y", "30Y"],
         datasets: store.state.yieldCurve.datasets
       };
     }
@@ -114,9 +102,7 @@ export default {
     },
     updateViewerDateText() {
       // console.log('setting viewer text to ' + this.chartData.datasets[0].date)
-      this.$refs.dateNavigation.setViewerDateText(
-        this.chartData.datasets[0].date
-      );
+      this.$refs.dateNavigation.setViewerDateText(this.chartData.datasets[0].date);
     }
   },
   watch: {
@@ -124,9 +110,7 @@ export default {
       // When moving up and down in time the date we get back from the API is often a different date than what we
       // think it is because of weekends and holidays
       // console.log("setting viewer text to " + this.chartData.datasets[0].date);
-      this.$refs.dateNavigation.setViewerDateText(
-        this.chartData.datasets[0].date
-      );
+      this.$refs.dateNavigation.setViewerDateText(this.chartData.datasets[0].date);
     }
   },
   mounted() {

@@ -85,7 +85,7 @@ export default {
     },
     setViewerDateText(newDate) {
       this.viewerDate = newDate;
-      this.$jsdatepicker.setDate(new Date(newDate), true)
+      this.$jsdatepicker.setDate(new Date(newDate), true);
     }
   },
   mounted() {
