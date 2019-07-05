@@ -9,7 +9,6 @@
     <div class="row justify-content-md-center">
       <div class="col-sm-8">
         <date-navigation
-          :setDate="this.viewerDate"
           v-on:date-changed="onDateNavigationChanged"
           v-on:date-move-up="onDateMoveUp"
           v-on:date-move-down="onDateMoveDown"
@@ -48,7 +47,6 @@ export default {
         responsive: true,
         spanGaps: true
       },
-      viewerDate: ""
     };
   },
   created() {
@@ -81,7 +79,6 @@ export default {
       this.updateChart();
     },
     onDateNavigationChanged(newDate) {
-      this.viewerDate = newDate;
       this.debouncedChangeCurrentDate(newDate, 0);
     },
     onDateMoveUp(baseDate) {
@@ -101,15 +98,18 @@ export default {
       this.$refs.yieldCurveChart.updateChart();
     },
     updateViewerDateText() {
-      // console.log('setting viewer text to ' + this.chartData.datasets[0].date)
+      // console.log('setting viewer text (from updateViewerDateText()) to ' + this.chartData.datasets[0].date)
       this.$refs.dateNavigation.setViewerDateText(this.chartData.datasets[0].date);
     }
   },
   watch: {
     chartData() {
-      // When moving up and down in time the date we get back from the API is often a different date than what we
-      // think it is because of weekends and holidays
-      // console.log("setting viewer text to " + this.chartData.datasets[0].date);
+      // This mainly gets triggered upon initial load of the component with the first load of data. Subsequent
+      // date navigator updates are performed by directly calling updateViewerDateText()
+      //
+      // I can't call updateViewerDateText() directly from this function
+      // https://stackoverflow.com/questions/35755027/how-to-call-function-from-watch
+      //
       this.$refs.dateNavigation.setViewerDateText(this.chartData.datasets[0].date);
     }
   },

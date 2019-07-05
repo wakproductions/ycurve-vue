@@ -9,14 +9,16 @@
     <b-row class="justify-content-md-center">
       <b-col sm="10">
         <DateRangeNavigator
-                ref="dateRangeNavigator"
+          @start-date-changed="onDateRangeNavigatorStartDateChanged"
+          @end-date-changed="onDateRangeNavigatorEndDateChanged"
+          ref="dateRangeNavigator"
         />
       </b-col>
     </b-row>
     <b-row class="justify-content-md-center">
       <b-col sm="10">
         <TreasuriesTimeSeriesChart
-                :chartData="this.timeSeriesData"
+                :chartData="this.chartData"
                 :height="600"
                 :width="1200"
                 ref="chartTreasuriesTimeSeries"
@@ -29,36 +31,16 @@
 <script>
 import DateRangeNavigator from "@/components/TreasuriesTimeSeriesViewer/DateRangeNavigator";
 import TreasuriesTimeSeriesChart from "@/components/TreasuriesTimeSeriesViewer/TreasuriesTimeSeriesChart";
-
-function dates() {
-  var startDate = new Date(2017,0,1)
-  var endDate = new Date(2019,2,30)
-  var currentDate = startDate
-  var result = new Array();
-  while (currentDate <= endDate) {
-    result.push(`${currentDate.getMonth()+1}/${currentDate.getDay()+1}/${currentDate.getFullYear()}`);
-    currentDate.setDate(currentDate.getDate() + 1)
-  }
-  return result;
-}
+import store from "@/store/index";
+import { types } from "@/store/treasuriesTimeSeries";
+import { isValidDateString } from "@/util/dateUtils";
 
 export default {
   name: "ChartTreasuriesTimeSeriesView",
   data() {
     return {
-      timeSeriesData: {
-        // labels: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21],
-        datasets: [
-          {
-            backgroundColor: "#000000",
-            borderColor: "#000000",
-            data: [1.2,1.2,1.24,1.24,1.3,1.3,1.3,1.3,1.3,1.4,1.5,1.6,1.75,1.64,1.6,1.65,1.7,1.77,1.8,1.8,1.8],
-            fill: false,
-            label: "Interest Rate Time Series"
-          }
-        ],
-        labels: dates()
-      }
+      timeSeriesStartDate: null,
+      timeSeriesEndDate: null
     };
   },
   components: {
@@ -66,24 +48,46 @@ export default {
     TreasuriesTimeSeriesChart
   },
   computed: {
+    chartData() {
+      return store.state.treasuriesTimeSeries.timeSeriesData;
+    }
   },
   methods: {
-    async changeDateRange(newLabels) {
-      // Get new date range
-      // await store.dispatch(types.CHANGE_CHART_DATE, {
-      //   newDate: newBaseDate,
-      //   offset: offset
+    onDateRangeNavigatorStartDateChanged(newStartDate) {
+      this.timeSeriesStartDate = newStartDate;
+      this.updateChartData();
+    },
+    onDateRangeNavigatorEndDateChanged(newEndDate) {
+      this.timeSeriesEndDate = newEndDate;
+      this.updateChartData();
+    },
+    async updateChartData() {
+      if (!this.validForm()) {
+        return false;
+      }
+
+      console.log("pulling chart data");
+      console.log(types.FETCH_TIME_SERIES);
+      // await store.dispatch(types.FETCH_TIME_SERIES, {
+      //   startDate: this.timeSeriesStartDate,
+      //   endDate: this.timeSeriesEndDate,
+      //   series: ["10Y"] //, '10Y-1M']
       // });
-      console.log(newLabels);
-      this.updateViewerDateText();
       this.updateChart();
     },
     updateChart() {
       this.$refs.chartTreasuriesTimeSeries.updateChart();
+    },
+    validForm() {
+      if (!isValidDateString(this.timeSeriesStartDate)) return false;
+      if (!isValidDateString(this.timeSeriesEndDate)) return false;
+      if (new Date(this.timeSeriesStartDate) >= new Date(this.timeSeriesEndDate)) return false;
+
+      return true;
     }
   },
-  watch: {
-  }
+  mounted() {},
+  watch: {}
 };
 </script>
 

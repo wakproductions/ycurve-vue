@@ -27,5 +27,14 @@ export const formatDateAmerican = date => {
 };
 
 export const formatDateISO8601 = date => {
-  return `${date.getUTCFullYear()}-${date.getUTCMonth() + 1}-${date.getUTCDate()}`;
+  var d = new Date(date);
+  return `${d.getUTCFullYear()}-${d.getUTCMonth() + 1}-${d.getUTCDate()}`;
+};
+
+export const isValidDateString = dateString => {
+  if (dateString == null || dateString.match(AMERICAN_DATE_REGEX) == null || new Date(dateString) == "Invalid Date") {
+    return false;
+  } else {
+    return true;
+  }
 };
