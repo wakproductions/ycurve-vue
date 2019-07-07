@@ -28,7 +28,8 @@ module API
         YieldCurveSnapshot.time_series(
           start_date: Date.parse(params[:start_date]),
           end_date: Date.parse(params[:end_date]),
-          series: params[:series]
+          series: params[:series],
+          data_density: 100
         )
       end
 

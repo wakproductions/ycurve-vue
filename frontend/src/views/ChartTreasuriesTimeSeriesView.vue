@@ -25,6 +25,14 @@
         />
       </b-col>
     </b-row>
+    <b-row class="justify-content-md-center mt-md-2">
+      <b-col sm="10" align-h="start">
+        <TreasuriesTimeSeriesSelector
+                @selection-changed="onTimeSeriesSelectionChanged"
+                ref="treasuriesTimeSeriesSelector"
+        />
+      </b-col>
+    </b-row>
   </div>
 </template>
 
@@ -34,22 +42,27 @@ import TreasuriesTimeSeriesChart from "@/components/TreasuriesTimeSeriesViewer/T
 import store from "@/store/index";
 import { types } from "@/store/treasuriesTimeSeries";
 import { isValidDateString } from "@/util/dateUtils";
+import TreasuriesTimeSeriesSelector from "../components/TreasuriesTimeSeriesViewer/TreasuriesTimeSeriesSelector";
 
 export default {
   name: "ChartTreasuriesTimeSeriesView",
   data() {
     return {
       timeSeriesStartDate: null,
-      timeSeriesEndDate: null
+      timeSeriesEndDate: null,
     };
   },
   components: {
+    TreasuriesTimeSeriesSelector,
     DateRangeNavigator,
     TreasuriesTimeSeriesChart
   },
   computed: {
     chartData() {
       return store.state.treasuriesTimeSeries.timeSeriesData;
+    },
+    selectedDatasets() {
+      return this.$refs.treasuriesTimeSeriesSelector.selectedDatasets;
     }
   },
   methods: {
@@ -61,18 +74,20 @@ export default {
       this.timeSeriesEndDate = newEndDate;
       this.updateChartData();
     },
+    onTimeSeriesSelectionChanged(newSelections) {
+      this.updateChartData();
+    },
     async updateChartData() {
       if (!this.validForm()) {
         return false;
       }
 
-      console.log("pulling chart data");
-      console.log(types.FETCH_TIME_SERIES);
-      // await store.dispatch(types.FETCH_TIME_SERIES, {
-      //   startDate: this.timeSeriesStartDate,
-      //   endDate: this.timeSeriesEndDate,
-      //   series: ["10Y"] //, '10Y-1M']
-      // });
+      console.log("pulling chart data " + this.selectedDatasets);
+      await store.dispatch(types.FETCH_TIME_SERIES, {
+        startDate: this.timeSeriesStartDate,
+        endDate: this.timeSeriesEndDate,
+        series: this.selectedDatasets
+      });
       this.updateChart();
     },
     updateChart() {
@@ -82,6 +97,7 @@ export default {
       if (!isValidDateString(this.timeSeriesStartDate)) return false;
       if (!isValidDateString(this.timeSeriesEndDate)) return false;
       if (new Date(this.timeSeriesStartDate) >= new Date(this.timeSeriesEndDate)) return false;
+      if (this.selectedDatasets.length < 1) return false;
 
       return true;
     }
