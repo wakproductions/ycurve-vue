@@ -3,18 +3,18 @@ import { reformatISO8601DateToAmericanDate } from "@/util/dateUtils";
 export const COLORS = [
   "#1ea5ff",
   "#ff0016",
-  "#ccca2e",
+  "#939121",
   "#3eff64",
   "#f339ff",
   "#ffb020",
-  "#10fff5",
+  "#222222",
   "#1971ba",
   "#ba0011",
-  "#b9ba11",
+  "#7f471b",
   "#3cbb5a",
   "#ae30ba",
   "#ba7d1b",
-  "#0dbab1"
+  "#343eba"
 ];
 
 export const buildDataStruct = (apiData, color) => {
@@ -39,6 +39,29 @@ export const buildDataStruct = (apiData, color) => {
     date: reformatISO8601DateToAmericanDate(apiData[0].yield_curve_date),
     fill: false,
     label: "Interest Rate"
+  };
+};
+
+export const buildTimeSeriesDataStruct = apiData => {
+  return {
+    datasets: Object.keys(apiData[0])
+      .map((keyName, index) => {
+        if (keyName == "time_series_date") return null;
+        return {
+          backgroundColor: COLORS[index],
+          borderColor: COLORS[index],
+          borderWidth: 1,
+          data: apiData.map(d => d[keyName]),
+          fill: false,
+          label: keyName,
+          lineTension: 0,
+          pointRadius: 0
+        };
+      })
+      .filter(dataPoint => {
+        return dataPoint != null;
+      }),
+    labels: apiData.map(d => d["time_series_date"])
   };
 };
 

@@ -1,8 +1,6 @@
 module API
   module V1
-    class YieldCurveSnapshotsController < ActionController::API
-      before_action :cors_set_access_control_headers # TODO put in abstract base class
-
+    class YieldCurveSnapshotsController < APIController
       API_FIELDS=[
         :treasury_datum_id,
         :yield_curve_date,
@@ -46,7 +44,7 @@ module API
               .first
               .try(:yield_curve_date) || YieldCurveSnapshot.minimum(:yield_curve_date)
           end
-          
+
         else
           YieldCurveSnapshot.maximum(:yield_curve_date)
         end
@@ -69,15 +67,6 @@ module API
       end
 
       private
-
-      # TODO put in abstract base class
-      def cors_set_access_control_headers
-        response.set_header('Access-Control-Allow-Origin', '*')
-        response.set_header('Access-Control-Allow-Methods', 'POST, PUT, DELETE, GET, OPTIONS')
-        response.set_header('Access-Control-Request-Method', '*')
-        response.set_header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization')
-      end
-
 
       def offset
         params[:offset].to_i

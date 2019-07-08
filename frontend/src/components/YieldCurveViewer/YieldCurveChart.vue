@@ -3,7 +3,7 @@
 import { Line, mixins } from "vue-chartjs";
 
 export default {
-  name: 'YieldCurveChart',
+  name: "YieldCurveChart",
   extends: Line,
 
   // Not using the reactiveProp feature because it renders unpredictably. Sometimes it smoothly changes the chart
