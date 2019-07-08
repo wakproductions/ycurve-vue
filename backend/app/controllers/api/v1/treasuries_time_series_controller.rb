@@ -29,7 +29,8 @@ module API
           start_date: Date.parse(params[:start_date]),
           end_date: Date.parse(params[:end_date]),
           series: params[:series],
-          data_density: 100
+          recession_indicator: params[:recessions],
+          data_density: 150
         )
       end
 

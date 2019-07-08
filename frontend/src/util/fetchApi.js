@@ -9,15 +9,13 @@ export const apiEndpoints = {
 
 export const fetchTreasuriesTimeSeries = (startDate, endDate, series) => {
   var query_url = new URL(apiEndpoints.TREASURIES_TIME_SERIES, base_url).toString();
-  return axios.get(
-    query_url,
-    {
-      params: {
-        start_date: formatDateISO8601(startDate),
-        end_date: formatDateISO8601(endDate),
-        series: series
-      }
-    });
+  return axios.get(query_url, {
+    params: {
+      start_date: formatDateISO8601(startDate),
+      end_date: formatDateISO8601(endDate),
+      series: series
+    }
+  });
 };
 
 export const fetchYieldCurveSnapshot = (date, offset = 0) => {

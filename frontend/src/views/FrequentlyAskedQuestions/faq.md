@@ -77,6 +77,13 @@ Board of Governors of the Federal Reserve System (US), 20-Year Treasury Constant
 2/15/1977 - 12/31/1989 (Daily, Constant Maturity)
 Board of Governors of the Federal Reserve System (US), 30-Year Treasury Constant Maturity Rate [DGS30], retrieved from FRED, Federal Reserve Bank of St. Louis; https://fred.stlouisfed.org/series/DGS30, April 28, 2019.
 
+### Past US Recessions ###
+1968 - Present
+Hamilton, James, Dates of U.S. recessions as inferred by GDP-based recession indicator [JHDUSRGDPBR], retrieved from FRED, Federal Reserve Bank of St. Louis; https://fred.stlouisfed.org/series/JHDUSRGDPBR, July 7, 2019.
+
+1929 - 1968
+[Wikipedia - List of Recessions in the United States](https://en.wikipedia.org/wiki/List_of_recessions_in_the_United_States)
+
 ## Links to More Information on Interest Rate Data Calculation Methodologies
 
 [FAQ on CMT (Constant Maturity) Rates - treasury.gov](https://www.treasury.gov/resource-center/faqs/Interest-Rates/Pages/faq.aspx#1)

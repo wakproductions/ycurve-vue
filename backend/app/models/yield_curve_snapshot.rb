@@ -1,15 +1,37 @@
 class YieldCurveSnapshot < ApplicationRecord
 
-  def self.time_series(start_date: Date.current - 3.years, end_date: Date.current, series: [], data_density: 100)
-    # Gotta do this due to Chart.js performance issues - limit the numebr of datapoints returned
-    mod = (datapoints.size / data_density).floor # use 1 to accept all datapoints
+  def self.time_series(
+      start_date: Date.current - 3.years,
+      end_date: Date.current,
+      series: [],
+      recession_indicator: false,
+      data_density: 100
+    )
 
-    YieldCurveSnapshot
+    raw_datapoints = YieldCurveSnapshot
       .where('yield_curve_date BETWEEN ? AND ?', start_date, end_date)
       .order(:yield_curve_date)
-      .select.with_index { |_val, index| index % mod == 0 }
+      .to_a
+
+    # Gotta do this due to Chart.js performance issues - limit the number of datapoints returned
+    filtered_datapoints =
+      if raw_datapoints.count <= data_density
+        raw_datapoints
+      else
+        mod = (raw_datapoints.size / data_density).floor
+        raw_datapoints.select.with_index { |_val, index| index % mod == 0 }
+      end
+
+    filtered_datapoints_with_time_series_fields =
+      filtered_datapoints
       .map { |snapshot| generate_time_series_fields(snapshot, series) }
       .reject { |r| r.except(:time_series_date).all?(&:nil?) }
+
+    if recession_indicator
+      Recession.add_recession_indicator_to_time_series(filtered_datapoints_with_time_series_fields)
+    else
+      filtered_datapoints_with_time_series_fields
+    end
   end
 
   private
