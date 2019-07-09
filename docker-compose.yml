@@ -45,6 +45,7 @@ services:
 
   frontend:
     build: ./frontend
+    container_name: ycurve_frontend
     #    entrypoint: ['./scripts/docker-entry.sh']
     networks:
       - ycurve
