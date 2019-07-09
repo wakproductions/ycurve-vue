@@ -47,6 +47,18 @@ export const buildTimeSeriesDataStruct = apiData => {
     datasets: Object.keys(apiData[0])
       .map((keyName, index) => {
         if (keyName == "time_series_date") return null;
+        if (keyName == "Recession") {
+          return {
+            backgroundColor: '#a1a1a1',
+            borderColor: '#a1a1a1',
+            borderWidth: 1,
+            data: apiData.map(d => d[keyName]),
+            fill: true,
+            label: keyName,
+            lineTension: 0,
+            pointRadius: 0
+          }
+        }
         return {
           backgroundColor: COLORS[index],
           borderColor: COLORS[index],

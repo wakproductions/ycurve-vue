@@ -47,6 +47,8 @@ services:
     build: ./frontend
     container_name: ycurve_frontend
     #    entrypoint: ['./scripts/docker-entry.sh']
+    environment:
+      - VUE_APP_API_SERVER_URL=${VUE_APP_API_SERVER_URL}
     networks:
       - ycurve
     tty: true
