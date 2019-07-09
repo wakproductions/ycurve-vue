@@ -11,13 +11,14 @@ namespace :custom do
       # https://stackoverflow.com/questions/19452983/capistrano-3-execute-within-a-directory
 
       # https://stackoverflow.com/questions/758774/capistrano-bash-ignore-command-exit-status
-      execute "cd #{fetch(:deploy_to)}/current; sudo docker kill #{fetch(:containers).join(' ')}; true"
-      execute "cd #{fetch(:deploy_to)}/current; sudo docker rm #{fetch(:containers).join(' ')}; true"
+      execute "cd #{fetch(:deploy_to)}/current; docker kill #{fetch(:containers).join(' ')}; true"
+      execute "cd #{fetch(:deploy_to)}/current; docker-compose down; true"
+      execute "cd #{fetch(:deploy_to)}/current; docker rm #{fetch(:containers).join(' ')}; true"
 
-      execute "cd #{fetch(:deploy_to)}/current; sudo docker-compose build"
+      execute "cd #{fetch(:deploy_to)}/current; docker-compose build; true"
       # execute "cd #{fetch(:deploy_to)}/current; sudo docker-compose run web rake db:migrate"
-      execute "cd #{fetch(:deploy_to)}/current; sudo docker-compose -f docker-compose.yml -f docker-compose.production.yml up -d"
-      execute "sudo docker network prune -f"
+      execute "cd #{fetch(:deploy_to)}/current; docker-compose -f docker-compose.yml -f docker-compose.production.yml up -d"
+      execute "docker network prune -f"
 
       # Run the daemons
       # execute "cd #{fetch(:deploy_to)}/current; sudo docker-compose run -d web bundle exec rake yield_curve_snapshots:run_update_daemon"
