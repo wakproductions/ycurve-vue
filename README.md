@@ -17,3 +17,6 @@ docker-compose up web
 
 `/var/www/ustreasuryyieldcurve-com`
 
+## Deploy
+
+`./deploy-production.sh`
