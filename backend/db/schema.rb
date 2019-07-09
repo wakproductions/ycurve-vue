@@ -10,10 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2017_05_30_022042) do
+ActiveRecord::Schema.define(version: 2019_07_08_010133) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "recessions", force: :cascade do |t|
+    t.string "name"
+    t.date "begin_date"
+    t.date "end_date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "yield_curve_snapshots", force: :cascade do |t|
     t.integer "treasury_datum_id"

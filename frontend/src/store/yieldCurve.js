@@ -46,7 +46,7 @@ export default {
 
       await fetchYieldCurveSnapshot(dateToPin, 0).then(response => {
         var newData = buildDataStruct(response.data, nextColor(state.datasets));
-        newData.label = `Interest Rate ${newData.date}`
+        newData.label = `Interest Rate ${newData.date}`;
 
         var newDatasets = addDatapoint(state.datasets, newData);
         commit(types.SET_CHART_DATA, newDatasets);

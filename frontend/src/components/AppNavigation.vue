@@ -6,9 +6,12 @@
       <b-collapse id="nav-collapse" is-nav>
 
         <b-navbar-nav>
-          <b-nav-item href="/">Chart</b-nav-item>
-          <b-nav-item href="/faq">FAQ</b-nav-item>
-          <b-nav-item href="/contact">Contact</b-nav-item>
+          <b-nav-item-dropdown text="Charts" left>
+            <b-nav-item :to="{ name: 'yield-curve-chart' }">Yield Curve</b-nav-item>
+            <b-nav-item :to="{ name: 'treasuries-time-series-chart' }">Treasuries Time Series</b-nav-item>
+          </b-nav-item-dropdown>
+          <b-nav-item :to="{ name: 'faq' }">FAQ</b-nav-item>
+          <b-nav-item :to="{ name: 'contact' }">Contact</b-nav-item>
         </b-navbar-nav>
 
       </b-collapse>

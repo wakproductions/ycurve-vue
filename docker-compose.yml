@@ -18,6 +18,7 @@ services:
       - ycurve
     ports:
       - "8036:3000"
+    stdin_open: true
     tty: true
     volumes:
       - ./backend:/app
