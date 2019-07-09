@@ -3,7 +3,7 @@ import { buildTimeSeriesDataStruct } from "@/util/buildDataStruct";
 
 export const types = {
   FETCH_TIME_SERIES: "FETCH_TIME_SERIES",
-  SET_CHART_DATA: "SET_CHART_DATA"
+  SET_TREASURIES_TIME_SERIES_CHART_DATA: "SET_TREASURIES_TIME_SERIES_CHART_DATA"
 };
 
 // Used to generate a list of successive dates - move to dateUtil.js?
@@ -58,7 +58,7 @@ export default {
     }
   },
   mutations: {
-    [types.SET_CHART_DATA]: (state, newChartData) => {
+    [types.SET_TREASURIES_TIME_SERIES_CHART_DATA]: (state, newChartData) => {
       state.timeSeriesData = newChartData;
     }
   },
@@ -70,7 +70,7 @@ export default {
 
       await fetchTreasuriesTimeSeries(startDate, endDate, series).then(response => {
         var newTimeSeriesData = buildTimeSeriesDataStruct(response.data);
-        commit(types.SET_CHART_DATA, newTimeSeriesData);
+        commit(types.SET_TREASURIES_TIME_SERIES_CHART_DATA, newTimeSeriesData);
       });
     }
   },
