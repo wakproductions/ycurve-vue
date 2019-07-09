@@ -9,14 +9,20 @@ namespace :custom do
       puts "================Starting Docker setup===================="
       # Working directory hack
       # https://stackoverflow.com/questions/19452983/capistrano-3-execute-within-a-directory
-
       # https://stackoverflow.com/questions/758774/capistrano-bash-ignore-command-exit-status
+
+      # build the new project
+      execute "cd #{fetch(:deploy_to)}/current; docker-compose build; true"
+      # these following two commands are run in docker-entry-production.sh
+      # execute "cd #{fetch(:deploy_to)}/current; docker-compose frontend yarn install; true"
+      # execute "cd #{fetch(:deploy_to)}/current; docker-compose frontend yarn build; true"
+
+      # kill the existing containers
       execute "cd #{fetch(:deploy_to)}/current; docker kill #{fetch(:containers).join(' ')}; true"
-      execute "cd #{fetch(:deploy_to)}/current; docker-compose down; true"
+      # execute "cd #{fetch(:deploy_to)}/current; docker-compose down; true"
       execute "cd #{fetch(:deploy_to)}/current; docker rm #{fetch(:containers).join(' ')}; true"
 
-      execute "cd #{fetch(:deploy_to)}/current; docker-compose build; true"
-      # execute "cd #{fetch(:deploy_to)}/current; sudo docker-compose run web rake db:migrate"
+      # restart
       execute "cd #{fetch(:deploy_to)}/current; docker-compose -f docker-compose.yml -f docker-compose.production.yml up -d"
       execute "docker network prune -f"
 

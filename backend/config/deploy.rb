@@ -3,9 +3,7 @@ set :scm, :git
 
 # set :docker_container_name, 'ycurve
 
-append :linked_files,
-  '.env',
-  'log/production.log'
+append :linked_files, '.env'
 
 # append :linked_dirs, 'backups'
 
