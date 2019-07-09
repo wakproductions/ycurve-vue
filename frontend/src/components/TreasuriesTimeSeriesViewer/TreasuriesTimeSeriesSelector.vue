@@ -48,7 +48,7 @@
 
 <script>
 const EVENT_TYPES = {
-  SELECTION_CHANGED: "selection-changed",
+  SELECTION_CHANGED: "selection-changed"
 };
 
 export default {
@@ -56,7 +56,7 @@ export default {
   components: {},
   data() {
     return {
-      selectedDatasets: ['1M', '10Y'],
+      selectedDatasets: ["3M", "10Y"]
     };
   },
   computed: {},
@@ -65,7 +65,7 @@ export default {
   mounted() {},
   watch: {
     selectedDatasets() {
-      this.$emit(EVENT_TYPES.SELECTION_CHANGED, this.selectedDatasets)
+      this.$emit(EVENT_TYPES.SELECTION_CHANGED, this.selectedDatasets);
     }
   }
 };
